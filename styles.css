@@ -1066,7 +1066,11 @@ a.link:hover {
   justify-content: center;
   align-items: center;
   width: 120px;
-  height: 120px;
+  /* Keeps the 120px face on tablets/desktops, but lets it shrink inside the
+     35%-wide mobile column on very narrow phones (it would otherwise spill). */
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
   border: 1.5px solid var(--label);
   border-radius: 50%;
   background: transparent;

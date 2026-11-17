@@ -199,6 +199,8 @@ Two columns: `.timezone__label` on the left (only `GMT+8`) and
 1. `.timezone__inner` (75 %) is a **column** flex container holding:
    - `.timezone__clock-col` → `.clock` — 120 px analogue face with three hands
      (`.clock__hand--hour`, `--minute`, `--second`) and an accent centre pin.
+     The face keeps the 120 px size but shrinks (`max-width: 100%;
+     aspect-ratio: 1 / 1`) on very narrow phones.
      Hands are rotated by CSS custom property `--angle`, written by `script.js`.
    - `.timezone__datetime` → digital `#clock-time` (`7:30 PM`) and `#clock-date`
      (`Nov 17, 2026`), stacked directly beneath the analogue clock.
