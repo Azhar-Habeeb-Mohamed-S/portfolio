@@ -171,7 +171,7 @@ empty image layer), a paragraph, and a short meta list. Cover ratio
 
 ### 4.4 Info — `section.info`
 
-1. `.info__rule` → `.rule` → `.rule__line`: the 2 px hairline that draws itself in.
+1. `.info__rule` → `.rule` → `.rule__line`: the 1 px hairline that draws itself in.
 2. `.info__row`, two columns:
    - `.info__label` — `He/him`.
    - `.info__right` — an empty 85 x 95 portrait slot (`.info__avatar`, kept
@@ -240,8 +240,8 @@ Each `.rule__line` starts at `transform: scaleX(0)` and transitions to
 `scaleX(1)` (origin left) when its `.rule` parent gets `.is-visible`. Using a
 transform instead of an animated `width` keeps the growth off the layout path.
 
-The rule is **2 px thick**: `.info__rule`, `.rule` and `.rule__line` all set
-`height: 2px` (the client asked for a heavier line than the original's 1 px).
+The rule is **1 px thick**: `.info__rule`, `.rule` and `.rule__line` all set
+`height: 1px`, matching the original page.
 
 `script.js` toggles `.is-visible` based on the rule’s position: it is added
 once the rule’s top passes **80 % of the viewport height** and removed as soon

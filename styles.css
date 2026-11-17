@@ -701,11 +701,11 @@ a.link:hover {
 /* --------------------------------------------------------------------------
    10. Hairline rule (animated separator)
    -------------------------------------------------------------------------- */
-/* Rule container: exactly two pixels tall (client request: thicker line) */
+/* Rule container: exactly one pixel tall */
 .info__rule {
   flex: none;
   width: 100%;
-  height: 2px;
+  height: 1px;
   position: relative;
 }
 
@@ -718,7 +718,7 @@ a.link:hover {
   align-items: center;
   gap: 10px;
   width: 100%;
-  height: 2px;
+  height: 1px;
   padding: 0;
   position: relative;
   overflow: hidden;
@@ -732,7 +732,7 @@ a.link:hover {
 .rule__line {
   flex: none;
   width: 100%;
-  height: 2px;
+  height: 1px;
   position: relative;
   background: var(--rule);
   transform: scaleX(0);

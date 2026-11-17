@@ -30,7 +30,7 @@ python -m http.server 8123 --bind 0.0.0.0
 * **Live clock** — digital time/date plus the analogue hands, in the visitor's
   own timezone (`GMT+8` is only a label). The digital block sits directly under
   the analogue clock.
-* **Hairline rules** — the 2 px separators above `He/him` and above the clock draw
+* **Hairline rules** — the 1 px separators above `He/him` and above the clock draw
   themselves in from left to right (`scaleX(0) → scaleX(1)`, 2 s ease-in-out)
   when they reach 80% of the viewport height. The class is toggled as the rule
   enters and leaves the viewport, so the line **redraws every time** you scroll
