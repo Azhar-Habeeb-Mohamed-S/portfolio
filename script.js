@@ -121,7 +121,7 @@
      used. Storage errors (private mode) are ignored.
      ------------------------------------------------------------------ */
   const LIKE_KEY = "azhar-site-like";
-  const likeButton = document.querySelector(".footer__like");
+  const likeButton = document.querySelector(".like-button");
   const config = window.AZHAR_SUPABASE || {};
   const endpoint = typeof config.url === "string" ? config.url.replace(/\/$/, "") : "";
   const hasConfig =

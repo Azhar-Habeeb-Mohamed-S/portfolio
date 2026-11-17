@@ -65,8 +65,7 @@ The whole page is **flexbox**, mirroring the original Framer export.
     <section class="info">    <!-- rule + bio + lists -->
     <section class="testimonials">
     <div class="info__rule">  <!-- rule above the clock -->
-    <section class="timezone"> <!-- clock + digital time/date -->
-    <footer class="footer">   <!-- single like button, under the xxx note -->
+    <section class="timezone"> <!-- clock, digital time/date, xxx note + like button -->
   </div>
 </div>
 ```
@@ -216,13 +215,14 @@ Stack spacing comes from the `.timezone__inner` gap: **24 px** desktop /
 **20 px** tablet / **16 px** mobile. On mobile `.timezone__right` becomes a
 column again, so the note follows the time/date.
 
-### 4.8 Footer — `footer.footer`
+### 4.8 Like button — `.like-button`
 
-56 px tall. A single like button (heart + count) and nothing else; there are
-**no** per-project like buttons. Its left margin starts at the same column as
-the note above it: **85 %** of the content box on desktop, **79 %** on tablet
-(the wider note) and **0** on mobile. The heart SVG has a **4.1** stroke width
-(+2.5 over the original 1.6).
+The single like button (heart + count) is the last child of the `.rt--note`
+column, directly under the two `xxx` placeholders with a 24 px top margin.
+It inherits the note's left edge at every width, so it lines up exactly under
+the placeholders on desktop, tablet and mobile. There are **no** per-project
+like buttons and no separate footer element. The heart SVG has a **4.1** stroke
+width (+2.5 over the original 1.6).
 
 ---
 
@@ -360,9 +360,9 @@ These are client-approved changes; do not “fix” them back without asking.
    media slot now shows the original grey poster image.
 3. **Digital time/date moved** — it sits directly **below** the analogue clock
    (24/20/16 px gap) instead of the original right-hand position.
-4. **One like button only** - a single heart + count in the footer, aligned
-   under the `xxx xxx` note. The three per-project like buttons added in the
-   first client round are gone.
+4. **One like button only** - a single heart + count directly below the
+   `xxx xxx` note, left edges aligned. The three per-project like buttons
+   added in the first client round are gone.
 5. **Two placeholders on the right** — the note holds two `xxx` lines (the
    original had three) and sits in the last quarter of the timezone row, at the
    same x-position as the original's note.

@@ -581,24 +581,17 @@
                  puts them at the same x-position as the original site's note.
                  (Client change: the original had three, and they were stacked
                  under the digital time; this clone keeps two.) -->
-            <div class="rt rt--note"><p class="copy">xxx<br />xxx</p></div>
+            <div class="rt rt--note">
+              <p class="copy">xxx<br />xxx</p><!-- The heart sits on the next line, its left edge lined up with the
+                   two placeholders. script.js owns its state. --><button class="like-button" type="button" aria-pressed="false" aria-label="Like this site">
+                <svg class="like-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 21s-7.2-4.7-9.6-9A5.4 5.4 0 0 1 12 6.6 5.4 5.4 0 0 1 21.6 12c-2.4 4.3-9.6 9-9.6 9Z" />
+                </svg>
+                <span class="like-count">0</span>
+              </button>
+            </div>
           </div>
         </section>
-
-        <!-- ============================================================
-             FOOTER - a single like button at the bottom left
-             (the three per-project like buttons were removed at the
-             client's request).
-             ============================================================ -->
-        <footer class="footer">
-          <!-- Like is per-browser: script.js keeps the state in localStorage -->
-          <button class="footer__like" type="button" aria-pressed="false" aria-label="Like this site">
-            <svg class="like-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 21s-7.2-4.7-9.6-9A5.4 5.4 0 0 1 12 6.6 5.4 5.4 0 0 1 21.6 12c-2.4 4.3-9.6 9-9.6 9Z" />
-            </svg>
-            <span class="like-count">0</span>
-          </button>
-        </footer>
       </div>
     </div>
 

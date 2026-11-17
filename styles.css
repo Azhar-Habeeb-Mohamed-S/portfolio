@@ -1123,29 +1123,18 @@ a.link:hover {
 }
 
 /* --------------------------------------------------------------------------
-   14. Footer - a single like control at the bottom right
-   (replaces the three per-project like buttons)
+   14. Like button - directly under the two xxx placeholders in the note
+   column (replaces the three per-project like buttons)
    -------------------------------------------------------------------------- */
-/* Footer row: the like control sits against the right edge of the page */
-.footer {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex: none;
-  width: 100%;
-  min-height: 56px;
-  padding: 0 24px;
-  background: var(--bg);
-}
-
 /* Heart + counter. Plain text button, no pill or border, like the original.
-   The left margin is the same column position as the note above it: 40% for
-   the section label + 75% of the 60% right column = 85% of the content box. */
-.footer__like {
-  display: inline-flex;
+   It lives inside the note column, so it inherits the note's left edge; the
+   top margin leaves one blank line between the placeholders and the heart. */
+.like-button {
+  display: flex;
+  width: max-content;
   align-items: center;
   gap: 7px;
-  margin-left: 85%;
+  margin-top: 24px;
   min-height: 36px;
   padding: 0;
   border: 0;
@@ -1160,14 +1149,14 @@ a.link:hover {
 }
 
 /* Keyboard focus ring - black, never the accent colour */
-.footer__like:focus-visible {
+.like-button:focus-visible {
   outline: 2px solid var(--copy);
   outline-offset: 3px;
 }
 
 /* Liked state: the heart simply fills in; the colour stays the black/charcoal
    of the original site (no red accent). */
-.footer__like.is-liked {
+.like-button.is-liked {
   color: var(--copy);
 }
 
@@ -1184,7 +1173,7 @@ a.link:hover {
 }
 
 /* Filled heart once liked */
-.footer__like.is-liked .like-icon {
+.like-button.is-liked .like-icon {
   fill: currentColor;
 }
 
@@ -1259,15 +1248,6 @@ a.link:hover {
   /* Timezone padding */
   .timezone {
     padding: 40px 16px 160px;
-  }
-
-  /* Footer padding; note is at 40% + 65% of 60% = 79% of the content box */
-  .footer {
-    padding: 0 16px;
-  }
-
-  .footer__like {
-    margin-left: 79%;
   }
 
   /* Digital time/date sits directly under the analogue clock */
@@ -1511,15 +1491,6 @@ a.link:hover {
   .timezone__right > .rt--note {
     flex: none;
     width: 100%;
-  }
-
-  /* Footer padding; the note stacks at the left edge on mobile */
-  .footer {
-    padding: 0 8px;
-  }
-
-  .footer__like {
-    margin-left: 0;
   }
 
   /* Clock takes 35% of the stacked column */
