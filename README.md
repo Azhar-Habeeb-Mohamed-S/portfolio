@@ -13,6 +13,9 @@ Live: **<https://mithun-srinivasan.github.io/hong-kong-client-project/>**
 | `styles.css` | Hand-written CSS in 16 numbered sections, matching the original Framer values and breakpoints. |
 | `fonts.css` | 42 local `Inter` `@font-face` subsets (no external font requests). |
 | `script.js` | Live clock, scroll-triggered hairline rules, footer like button. |
+| `supabase-config.js` | Blank URL/anon key for the optional shared like counter. |
+| `SUPABASE.md` | First-time Supabase setup guide + SQL. |
+| `HANDOVER.md` | Full architecture and editing guide. |
 | `fonts/` | 42 `.woff2` subsets. |
 | `images/` | Favicons and the grey poster used for project media. |
 
@@ -35,8 +38,9 @@ python -m http.server 8123 --bind 0.0.0.0
   when they reach 80% of the viewport height. The class is toggled as the rule
   enters and leaves the viewport, so the line **redraws every time** you scroll
   back to it.
-* **Footer like button** — a single heart + counter at the bottom right,
-  persisted per browser in `localStorage`.
+* **Footer like button** — a single heart + counter aligned under the `xxx xxx`
+  note. Your own like is remembered per browser in `localStorage`; fill in
+  `supabase-config.js` (see `SUPABASE.md`) to share the count with everyone.
 * **Media** — all videos/GIFs were removed at the client's request; project
   cards show the original grey poster image instead.
 

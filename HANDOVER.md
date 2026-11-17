@@ -35,7 +35,9 @@ python -m http.server 8123 --bind 0.0.0.0
 | --- | --- | --- |
 | `index.html` | ~29 KB / 570 lines | All page content. One `<section>` per page section, every block commented. |
 | `styles.css` | ~29 KB / 1478 lines | 16 numbered, commented sections: tokens, reset, typography, layout, components, footer, tablet, mobile. |
-| `script.js` | ~5.4 KB / 155 lines | Three behaviours only: live clock, rule reveal animation, footer like button. |
+| `script.js` | ~7 KB | Three behaviours only: live clock, rule reveal animation, footer like button (localStorage or Supabase). |
+| `supabase-config.js` | — | Two values (`url`, `anonKey`) for the shared like counter; both empty by default. |
+| `SUPABASE.md` | — | First-time setup guide and the SQL for the shared like counter. |
 | `fonts.css` | ~10 KB | 42 `Inter` `@font-face` subsets, each pointing at a local `.woff2`. |
 | `fonts/` | 42 files | The Inter subsets themselves (variable weights/styles used by the design). |
 | `images/` | 3 PNGs | Grey poster (`SJCvb3fap5nW9LnMleHN23RfwrA.png`) and two favicons. The portrait slot is intentionally empty. |
@@ -64,7 +66,7 @@ The whole page is **flexbox**, mirroring the original Framer export.
     <section class="testimonials">
     <div class="info__rule">  <!-- rule above the clock -->
     <section class="timezone"> <!-- clock + digital time/date -->
-    <footer class="footer">   <!-- single like button, bottom right -->
+    <footer class="footer">   <!-- single like button, under the xxx note -->
   </div>
 </div>
 ```
@@ -204,9 +206,11 @@ Two columns: `.timezone__label` on the left (only `GMT+8`) and
      Hands are rotated by CSS custom property `--angle`, written by `script.js`.
    - `.timezone__datetime` → digital `#clock-time` (`7:30 PM`) and `#clock-date`
      (`Nov 17, 2026`), stacked directly beneath the analogue clock.
-2. `.timezone__right > .rt--note` (25 %) holds exactly **two** `xxx`
-   placeholders on the right side of the page. The 25 % share puts it at the
-   same x-position as the note in the original (x = 1194 px at 1425 px wide).
+2. `.timezone__right > .rt--note` holds exactly **two** `xxx`
+   placeholders. Its width is **25 %** on desktop (x = 1194 px at 1425 px wide)
+   and **35 %** on tablet, where it matches the testimonial attribution column
+   so the note starts at the same x-position as `Fion Leung / Time Auction`
+   above the rule. On mobile it stacks at the left edge.
 
 Stack spacing comes from the `.timezone__inner` gap: **24 px** desktop /
 **20 px** tablet / **16 px** mobile. On mobile `.timezone__right` becomes a
@@ -214,8 +218,11 @@ column again, so the note follows the time/date.
 
 ### 4.8 Footer — `footer.footer`
 
-56 px tall. A single like button (heart + count) on the right and nothing else.
-There are **no** per-project like buttons.
+56 px tall. A single like button (heart + count) and nothing else; there are
+**no** per-project like buttons. Its left margin starts at the same column as
+the note above it: **85 %** of the content box on desktop, **79 %** on tablet
+(the wider note) and **0** on mobile. The heart SVG has a **4.1** stroke width
+(+2.5 over the original 1.6).
 
 ---
 
@@ -257,12 +264,19 @@ frame).
 ### 5.3 Footer like (section 3)
 
 - Key: `azhar-site-like` in `localStorage`, shape
-  `{"liked": true, "count": 1}`.
+  `{"liked": true, "count": 1}`. It remembers **this browser's** like; the
+  count can come from Supabase instead.
 - `render()` — writes the count, toggles `.is-liked`, updates `aria-pressed`
   and `aria-label` (“Like this site” / “Unlike this site”).
-- `toggle()` — flips the state, clamps the count at 0, saves, re-renders.
+- `readCount()` / `adjustCount(delta)` — with `supabase-config.js` filled in,
+  the count is read from the single `site_likes` row and changed through the
+  `adjust_site_likes` RPC. The server response is authoritative.
+- The click handler flips `.is-liked`, updates optimistically, persists the
+  liked flag, then reconciles with the server. If Supabase is unreachable it
+  falls back to the local count for the session; clicks are ignored while a
+  request is in flight.
 - All storage access is wrapped in `try/catch` so private mode or corrupt data
-  cannot break the button.
+  cannot break the button. Setup: see `SUPABASE.md`.
 
 ---
 
@@ -308,11 +322,11 @@ duration or easing there; the trigger logic (80 % of the viewport, toggled so
 the draw replays on every scroll) is in `script.js` section 2. Both rules -
 above `He/him` and above the clock - use the same class and the same timing.
 
-### Make the like button real
+### Turn on shared likes
 
-Currently it is a front-end-only counter stored per browser. Point
-`toggle()` at an API call (and read the count from that API on load) to make it
-global. The markup and CSS stay the same.
+Follow `SUPABASE.md`: create the free project, run the SQL once, then paste the
+Project URL and anon key into `supabase-config.js`. The markup, CSS and
+localStorage fallback stay the same.
 
 ### Adjust breakpoints
 
@@ -346,8 +360,9 @@ These are client-approved changes; do not “fix” them back without asking.
    media slot now shows the original grey poster image.
 3. **Digital time/date moved** — it sits directly **below** the analogue clock
    (24/20/16 px gap) instead of the original right-hand position.
-4. **One like button only** - a single heart + count in the bottom-right footer.
-   The three per-project like buttons added in the first client round are gone.
+4. **One like button only** - a single heart + count in the footer, aligned
+   under the `xxx xxx` note. The three per-project like buttons added in the
+   first client round are gone.
 5. **Two placeholders on the right** — the note holds two `xxx` lines (the
    original had three) and sits in the last quarter of the timezone row, at the
    same x-position as the original's note.

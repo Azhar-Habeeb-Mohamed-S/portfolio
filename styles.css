@@ -1130,7 +1130,7 @@ a.link:hover {
 .footer {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   flex: none;
   width: 100%;
   min-height: 56px;
@@ -1139,11 +1139,13 @@ a.link:hover {
 }
 
 /* Heart + counter. Plain text button, no pill or border, like the original.
-   Right-aligned by the footer, so the count ends exactly on the 24px inset. */
+   The left margin is the same column position as the note above it: 40% for
+   the section label + 75% of the 60% right column = 85% of the content box. */
 .footer__like {
   display: inline-flex;
   align-items: center;
   gap: 7px;
+  margin-left: 85%;
   min-height: 36px;
   padding: 0;
   border: 0;
@@ -1177,7 +1179,7 @@ a.link:hover {
   height: 16px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.6;
+  stroke-width: 4.1;
   stroke-linejoin: round;
 }
 
@@ -1259,9 +1261,13 @@ a.link:hover {
     padding: 40px 16px 160px;
   }
 
-  /* Footer padding */
+  /* Footer padding; note is at 40% + 65% of 60% = 79% of the content box */
   .footer {
     padding: 0 16px;
+  }
+
+  .footer__like {
+    margin-left: 79%;
   }
 
   /* Digital time/date sits directly under the analogue clock */
@@ -1275,6 +1281,17 @@ a.link:hover {
     word-break: break-word;
     word-wrap: break-word;
     width: 35%;
+  }
+
+  /* On tablet the testimonial attribution column is 35% wide, so the note
+     must be the same width to start at the same x-position. The clock keeps
+     its full 65% stack on the left. */
+  .timezone__inner {
+    flex: 0.65 0 0;
+  }
+
+  .timezone__right > .rt--note {
+    flex: 0.35 0 0;
   }
 
   /* Selected project */
@@ -1496,9 +1513,13 @@ a.link:hover {
     width: 100%;
   }
 
-  /* Footer padding */
+  /* Footer padding; the note stacks at the left edge on mobile */
   .footer {
     padding: 0 8px;
+  }
+
+  .footer__like {
+    margin-left: 0;
   }
 
   /* Clock takes 35% of the stacked column */

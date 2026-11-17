@@ -114,12 +114,20 @@
 
   /* ------------------------------------------------------------------
      3. Footer like button
-     A static site has no backend, so the count is stored per browser in
-     localStorage. Storage errors (private mode) are ignored - the button
-     still works for the current page view.
+     With Supabase config the count is shared by every visitor: it is read
+     on load and changed through a small RPC. localStorage still remembers
+     whether THIS browser has liked, so a refresh cannot like twice.
+     Without config (or if the request fails) the old per-browser count is
+     used. Storage errors (private mode) are ignored.
      ------------------------------------------------------------------ */
   const LIKE_KEY = "azhar-site-like";
   const likeButton = document.querySelector(".footer__like");
+  const config = window.AZHAR_SUPABASE || {};
+  const endpoint = typeof config.url === "string" ? config.url.replace(/\/$/, "") : "";
+  const hasConfig =
+    /^https:\/\/[^/]+\.supabase\.co$/.test(endpoint) &&
+    typeof config.anonKey === "string" &&
+    config.anonKey.length > 20;
 
   if (likeButton) {
     const countElement = likeButton.querySelector(".like-count");
@@ -131,6 +139,9 @@
       /* Corrupt or unavailable storage - keep the defaults. */
     }
 
+    let online = hasConfig;
+    let busy = false;
+
     /** Reflects `state` in the button (class, aria attributes, number). */
     const render = () => {
       likeButton.classList.toggle("is-liked", state.liked);
@@ -139,20 +150,79 @@
       if (countElement) countElement.textContent = String(state.count);
     };
 
-    const toggle = () => {
-      state.liked = !state.liked;
-      state.count = Math.max(0, state.count + (state.liked ? 1 : -1));
-
+    /** Remembers only this browser's liked flag (plus a local fallback count). */
+    const persist = () => {
       try {
         localStorage.setItem(LIKE_KEY, JSON.stringify(state));
       } catch {
         /* Storage unavailable - the state still updates on screen. */
       }
-
-      render();
     };
 
+    const headers = () => ({
+      apikey: config.anonKey,
+      Authorization: `Bearer ${config.anonKey}`,
+      "Content-Type": "application/json",
+    });
+
+    /** Reads the single shared counter row. */
+    const readCount = async () => {
+      const response = await fetch(`${endpoint}/rest/v1/site_likes?id=eq.1&select=count`, {
+        headers: headers(),
+      });
+      if (!response.ok) throw new Error(`Could not read likes (${response.status})`);
+      const rows = await response.json();
+      if (!Array.isArray(rows) || !rows.length) throw new Error("No counter row");
+      return Number(rows[0].count) || 0;
+    };
+
+    /** Adds delta (+1 / -1) via the security-definer RPC and returns the new count. */
+    const adjustCount = async (delta) => {
+      const response = await fetch(`${endpoint}/rest/v1/rpc/adjust_site_likes`, {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({ delta }),
+      });
+      if (!response.ok) throw new Error(`Could not save like (${response.status})`);
+      return Number(await response.json()) || 0;
+    };
+
+    if (online) {
+      readCount()
+        .then((count) => {
+          state.count = count;
+          render();
+        })
+        .catch(() => {
+          online = false; // Fall back to the local count for this session.
+          render();
+        });
+    }
+
     render();
-    likeButton.addEventListener("click", toggle);
+
+    likeButton.addEventListener("click", async () => {
+      if (busy) return;
+      busy = true;
+
+      const delta = state.liked ? -1 : 1;
+      state.liked = !state.liked;
+      state.count = Math.max(0, state.count + delta);
+      persist();
+      render();
+
+      if (online) {
+        try {
+          state.count = await adjustCount(delta); // Server count is authoritative.
+        } catch {
+          online = false;
+          state.count = Math.max(0, state.count - delta); // Undo the optimistic change.
+        }
+        persist();
+        render();
+      }
+
+      busy = false;
+    });
   }
 })();
