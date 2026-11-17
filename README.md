@@ -58,6 +58,6 @@ matches the Framer source.
 * The ElevenLabs "Talk to an agent" widget is part of the original page and is
   kept.
 * `xxx` blocks are the original's own placeholders (kept as content). The
-  footer note holds exactly two, on the left under `GMT+8`.
+  timezone note holds exactly two, on the right side of the clock row.
 * The portrait slot above the bio is intentionally empty — the client will add
   their own photo there.

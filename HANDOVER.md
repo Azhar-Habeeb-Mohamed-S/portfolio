@@ -193,24 +193,22 @@ clock. Both rules animate the same way.
 
 ### 4.7 Timezone & clock — `section.timezone`
 
-Two columns: `.timezone__label` on the left, `.timezone__right` on the right.
+Two columns: `.timezone__label` on the left (only `GMT+8`) and
+`.timezone__right` on the right, which is a **row** flex container split 75 / 25:
 
-The left label column holds:
-
-1. `GMT+8`.
-2. The note with exactly **two** `xxx` placeholders (`.timezone__label
-   .rt--note`, 24 px below the label), i.e. on the left side of the page.
-
-Inside `.timezone__right` → `.timezone__inner` (a **column** flex container):
-
-1. `.timezone__clock-col` → `.clock` — 120 px analogue face with three hands
-   (`.clock__hand--hour`, `--minute`, `--second`) and an accent centre pin.
-   Hands are rotated by CSS custom property `--angle`, written by `script.js`.
-2. `.timezone__datetime` → digital `#clock-time` (`7:30 PM`) and `#clock-date`
-   (`Nov 17, 2026`), stacked directly beneath the analogue clock.
+1. `.timezone__inner` (75 %) is a **column** flex container holding:
+   - `.timezone__clock-col` → `.clock` — 120 px analogue face with three hands
+     (`.clock__hand--hour`, `--minute`, `--second`) and an accent centre pin.
+     Hands are rotated by CSS custom property `--angle`, written by `script.js`.
+   - `.timezone__datetime` → digital `#clock-time` (`7:30 PM`) and `#clock-date`
+     (`Nov 17, 2026`), stacked directly beneath the analogue clock.
+2. `.timezone__right > .rt--note` (25 %) holds exactly **two** `xxx`
+   placeholders on the right side of the page. The 25 % share puts it at the
+   same x-position as the note in the original (x = 1194 px at 1425 px wide).
 
 Stack spacing comes from the `.timezone__inner` gap: **24 px** desktop /
-**20 px** tablet / **16 px** mobile.
+**20 px** tablet / **16 px** mobile. On mobile `.timezone__right` becomes a
+column again, so the note follows the time/date.
 
 ### 4.8 Footer — `footer.footer`
 
@@ -344,8 +342,9 @@ These are client-approved changes; do not “fix” them back without asking.
    (24/20/16 px gap) instead of the original right-hand position.
 4. **One like button only** — a single heart + count in the bottom-left footer.
    The three per-project like buttons added in the first client round are gone.
-5. **Two placeholders on the left** — the note holds two `xxx` lines (the
-   original had three) and now sits under `GMT+8` instead of under the clock.
+5. **Two placeholders on the right** — the note holds two `xxx` lines (the
+   original had three) and sits in the last quarter of the timezone row, at the
+   same x-position as the original's note.
 6. **Empty portrait slot** — the old avatar image was removed; `.info__avatar`
    keeps an empty 85 x 95 frame for the client’s own photo.
 

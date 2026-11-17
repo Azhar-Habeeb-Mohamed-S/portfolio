@@ -541,9 +541,6 @@
             <div class="rt rt--fill">
               <p class="label">GMT+8</p>
             </div>
-            <!-- Exactly two placeholders, kept on the left side of the page
-                 (client change: was three, and they used to sit under the clock) -->
-            <div class="rt rt--note"><p class="copy">xxx<br />xxx</p></div>
           </div>
 
           <div class="timezone__right">
@@ -578,6 +575,13 @@
                 </div>
               </div>
             </div>
+
+            <!-- Exactly two placeholders, on the right side of the page.
+                 They sit in the right-hand quarter of the timezone row, which
+                 puts them at the same x-position as the original site's note.
+                 (Client change: the original had three, and they were stacked
+                 under the digital time; this clone keeps two.) -->
+            <div class="rt rt--note"><p class="copy">xxx<br />xxx</p></div>
           </div>
         </section>
 

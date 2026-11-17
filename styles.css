@@ -920,17 +920,11 @@ a.link:hover {
   background: var(--bg);
 }
 
-/* The two placeholder rows sit under the GMT+8 label, on the left side of the
-   page (client change). Width is auto so they never stretch the label column. */
-.timezone__label .rt--note {
-  width: auto;
-  margin-top: 24px;
-}
-
-/* Right column of the timezone (60%) */
+/* Right column of the timezone (60%): clock + digital time on the left three
+   quarters, the two placeholders on the right quarter. */
 .timezone__right {
   display: flex;
-  flex-flow: column;
+  flex-flow: row;
   place-content: flex-start;
   align-items: flex-start;
   gap: 0;
@@ -949,12 +943,19 @@ a.link:hover {
   place-content: flex-start;
   align-items: flex-start;
   gap: 24px;
-  flex: none;
-  width: 100%;
+  flex: 0.75 0 0;
+  width: 1px;
   height: min-content;
   padding: 0;
   position: relative;
   overflow: visible;
+}
+
+/* The two placeholder rows sit on the right side of the timezone row, in the
+   last quarter - the same x-position as the note on the original page. */
+.timezone__right > .rt--note {
+  flex: 0.25 0 0;
+  width: 1px;
 }
 
 /* Analogue clock column */
@@ -1474,6 +1475,18 @@ a.link:hover {
     justify-content: flex-start;
     gap: 16px;
     padding: 32px 8px 128px;
+  }
+
+  /* The clock stack and the note stack vertically on mobile */
+  .timezone__right {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .timezone__inner,
+  .timezone__right > .rt--note {
+    flex: none;
+    width: 100%;
   }
 
   /* Footer padding */
