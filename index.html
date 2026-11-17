@@ -555,9 +555,11 @@
                 </div>
               </div>
 
-              <!-- Digital time + date, stacked below the analogue clock.
-                   Spacing comes from the .timezone__inner column gap:
-                   24px desktop / 20px tablet / 16px mobile. -->
+            </div>
+
+            <!-- Right-hand stack: digital time/date above the placeholders,
+                 its top edge level with the clock on the left. -->
+            <div class="timezone__side">
               <div class="timezone__datetime">
                 <div class="timezone__datetime-inner">
                   <div class="timezone__clock-text">
@@ -574,15 +576,11 @@
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Exactly two placeholders, on the right side of the page.
-                 They sit in the right-hand quarter of the timezone row, which
-                 puts them at the same x-position as the original site's note.
-                 (Client change: the original had three, and they were stacked
-                 under the digital time; this clone keeps two.) -->
-            <div class="rt rt--note"><p class="copy">xxx<br />xxx</p><!-- The heart sits on the next line, its left edge lined up with the
-                   two placeholders. script.js owns its state. Critical styling is
+              <!-- Three placeholders stacked under the digital time, like the
+                   original page. The heart sits below them at the same x. -->
+              <div class="rt rt--note"><p class="copy">xxx<br />xxx<br />xxx</p><!-- The heart sits on the next line, its left edge lined up with the
+                   three placeholders. script.js owns its state. Critical styling is
                 inline so a cached stylesheet can never bring back the native
                 button box. --><button class="like-button" type="button" aria-pressed="false" aria-label="Like this site" style="display:inline-flex;align-items:center;gap:7px;margin:24px 0 0;padding:0;border:0;background:none;appearance:none;-webkit-appearance:none;color:inherit;font:inherit;cursor:pointer">
                 <svg class="like-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -590,6 +588,7 @@
                 </svg>
                 <span class="like-count">0</span>
               </button></div>
+            </div>
           </div>
         </section>
       </div>

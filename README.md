@@ -38,8 +38,8 @@ python -m http.server 8123 --bind 0.0.0.0
   when they reach 80% of the viewport height. The class is toggled as the rule
   enters and leaves the viewport, so the line **redraws every time** you scroll
   back to it.
-* **Like button** — a single heart + counter sitting directly under the
-  `xxx xxx` note, left edges aligned. Your own like is remembered per browser
+* **Like button** — a single heart + counter sitting directly under the three
+  `xxx` lines, left edges aligned. Your own like is remembered per browser
   in `localStorage`; fill in
   `supabase-config.js` (see `SUPABASE.md`) to share the count with everyone.
 * **Media** — all videos/GIFs were removed at the client's request; project
