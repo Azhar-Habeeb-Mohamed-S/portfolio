@@ -28,6 +28,7 @@
   </head>
 
   <body>
+    <!-- Page wrapper kept from the original export; all content lives in .site -->
     <div id="main">
       <div class="site">
         <!-- ============================================================
@@ -76,11 +77,13 @@
           <!-- ---------- Selected projects ---------- -->
           <section class="projects">
             <!-- Project 1 -->
+            <!-- Each project = media block, then a meta row: year | body copy + meta list -->
             <div class="project-row">
               <article class="project">
                 <div class="project__inner">
                   <div class="project__content">
                     <div class="project__media">
+                      <!-- Grey poster image - the videos/GIFs were removed at the client's request -->
                       <img class="video" src="images/SJCvb3fap5nW9LnMleHN23RfwrA.png" alt="" loading="lazy" />
                     </div>
                     <header class="project__meta">
@@ -193,6 +196,7 @@
             </div>
 
             <!-- Side project 1 -->
+            <!-- Side projects reuse the project layout; the year cell stays empty -->
             <div class="project-row">
               <article class="project project--side">
                 <div class="project__inner">
@@ -258,6 +262,7 @@
           <!-- ---------- Misc ---------- -->
           <section class="miscs">
             <!-- Misc 1 -->
+            <!-- Cover = grey poster behind an empty image slot (the GIF was removed at the client's request) -->
             <div class="misc">
               <div class="misc__inner">
                 <div class="misc__content">
@@ -345,6 +350,7 @@
             </div>
           </div>
 
+          <!-- Two columns: label on the left, bio + lists on the right -->
           <div class="info__row">
             <div class="info__label">
               <div class="rt rt--fill">
@@ -372,6 +378,7 @@
                   </div>
                 </div>
 
+                <!-- Reference lists: Experiences, Recognitions, Credentials, Skills, ... -->
                 <div class="rt rt--lists">
                   <p class="copy">
                     <span class="muted">Experiences</span><br /><br />
@@ -435,6 +442,7 @@
 
           <div class="testimonials__right">
             <div class="testimonials__list">
+              <!-- Five quotes: quote on the left, attribution on the right -->
               <!-- 1 -->
               <div class="testimonial">
                 <div class="rt rt--quote">
@@ -548,7 +556,7 @@
 
               <!-- Digital time + date, stacked below the analogue clock.
                    Spacing comes from the .timezone__inner column gap:
-                   48px desktop / 40px tablet / 32px mobile. -->
+                   24px desktop / 20px tablet / 16px mobile. -->
               <div class="timezone__datetime">
                 <div class="timezone__datetime-inner">
                   <div class="timezone__clock-text">
@@ -577,6 +585,7 @@
              were removed at the client's request).
              ============================================================ -->
         <footer class="footer">
+          <!-- Like is per-browser: script.js keeps the state in localStorage -->
           <button class="footer__like" type="button" aria-pressed="false" aria-label="Like this site">
             <svg class="like-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 21s-7.2-4.7-9.6-9A5.4 5.4 0 0 1 12 6.6 5.4 5.4 0 0 1 21.6 12c-2.4 4.3-9.6 9-9.6 9Z" />

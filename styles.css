@@ -18,6 +18,7 @@
 /* --------------------------------------------------------------------------
    1. Design tokens
    -------------------------------------------------------------------------- */
+/* Design tokens: colours, font stack and the 15px root size */
 :root {
   --bg: #fff;
   --label: #888; /* grey section labels / headings */
@@ -33,12 +34,14 @@
 /* --------------------------------------------------------------------------
    2. Reset / base
    -------------------------------------------------------------------------- */
+/* Reset: border-box sizing for every element */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+/* Strip the default page margins */
 html,
 body,
 #main {
@@ -46,6 +49,7 @@ body,
   padding: 0;
 }
 
+/* Antialiased text rendering, as in the original export */
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -57,6 +61,7 @@ html {
   text-size-adjust: none !important;
 }
 
+/* Body defaults: Inter 15px / 500 */
 body {
   background: var(--bg);
   color: var(--copy);
@@ -67,6 +72,7 @@ body {
   line-height: 1.5em;
 }
 
+/* Remove default margins from block text elements */
 h1,
 h2,
 h3,
@@ -78,12 +84,14 @@ figure {
   margin: 0;
 }
 
+/* Media defaults: block-level, never wider than the parent */
 img,
 video {
   display: block;
   max-width: 100%;
 }
 
+/* Links inherit the surrounding text colour */
 a {
   color: inherit;
 }
@@ -94,6 +102,7 @@ a {
      • "label" (a8mtv7) → #888  - headings, years, section titles
      • "copy"  (m0k8cu) → #3d3d3d - body text, meta lists
    -------------------------------------------------------------------------- */
+/* Shared text preset: family, size, tracking, OpenType features */
 .copy,
 .label {
   margin: 0;
@@ -109,10 +118,12 @@ a {
   --paragraph-spacing: 20px;
 }
 
+/* Body copy colour */
 .copy {
   color: var(--copy);
 }
 
+/* Grey label colour */
 .label {
   color: var(--label);
 }
@@ -129,6 +140,7 @@ a.link {
   transition: color 0.2s ease;
 }
 
+/* Inline link hover state */
 a.link:hover {
   color: var(--label);
 }
@@ -146,6 +158,7 @@ a.link:hover {
    (`flex: .35 0 0`) combined with a 1px flex basis, which is what produces
    the very specific column widths of the original layout.
    -------------------------------------------------------------------------- */
+/* Rich-text wrapper: full width, breaks long words */
 .rt {
   flex: none;
   width: 100%;
@@ -155,12 +168,14 @@ a.link:hover {
   word-wrap: break-word;
 }
 
+/* Body / quote columns take 35% of their row */
 .rt--bio,
 .rt--body,
 .rt--quote {
   flex: 0.35 0 0;
 }
 
+/* Year / meta / attribution columns take 25% */
 .rt--year,
 .rt--meta,
 .rt--attribution,
@@ -168,6 +183,7 @@ a.link:hover {
   flex: 0.25 0 0;
 }
 
+/* Section title column takes 40% */
 .rt--title {
   flex: 0.4 0 0;
 }
@@ -201,6 +217,7 @@ a.link:hover {
 /* --------------------------------------------------------------------------
    5. Page shell
    -------------------------------------------------------------------------- */
+/* Page shell: centred column with clipped overflow */
 .site {
   display: flex;
   flex-flow: column;
@@ -219,6 +236,7 @@ a.link:hover {
 /* --------------------------------------------------------------------------
    6. Spacer - empty head room above the fold
    -------------------------------------------------------------------------- */
+/* Spacer: empty head room above the fold */
 .spacer {
   display: flex;
   flex-flow: column;
@@ -238,6 +256,7 @@ a.link:hover {
 /* --------------------------------------------------------------------------
    7. Intro - name, bio, copyright
    -------------------------------------------------------------------------- */
+/* Intro row: name on the left, bio on the right */
 .intro {
   display: flex;
   flex-flow: row;
@@ -253,6 +272,7 @@ a.link:hover {
   background: var(--bg);
 }
 
+/* Left label column shared by intro / info / testimonials / timezone */
 .intro__left,
 .info__label,
 .testimonials__label,
@@ -270,6 +290,7 @@ a.link:hover {
   overflow: visible;
 }
 
+/* Right column of the intro (60% of the row) */
 .intro__right {
   display: flex;
   flex-flow: row;
@@ -284,6 +305,7 @@ a.link:hover {
   overflow: visible;
 }
 
+/* Bio + copyright row inside the right column */
 .intro__row {
   display: flex;
   flex-flow: row;
@@ -297,7 +319,7 @@ a.link:hover {
   overflow: visible;
 }
 
-/* The grey ©2027 variant is mobile only */
+/* Grey copyright variant - mobile only */
 .rt--year-mobile {
   display: none;
 }
@@ -305,6 +327,7 @@ a.link:hover {
 /* --------------------------------------------------------------------------
    8. Works - projects, side projects, misc
    -------------------------------------------------------------------------- */
+/* Works: vertical stack of projects, side projects and misc */
 .works {
   display: flex;
   flex-flow: column;
@@ -321,6 +344,7 @@ a.link:hover {
   background: var(--bg);
 }
 
+/* Project lists share the same vertical rhythm */
 .projects,
 .side-projects {
   display: flex;
@@ -336,6 +360,7 @@ a.link:hover {
   background: var(--bg);
 }
 
+/* One full-width project row */
 .project-row {
   display: flex;
   flex-flow: row;
@@ -349,6 +374,7 @@ a.link:hover {
   position: relative;
 }
 
+/* A single project card */
 .project {
   flex: 1 0 0;
   width: 1px;
@@ -356,6 +382,7 @@ a.link:hover {
   position: relative;
 }
 
+/* Project card inner padding */
 .project__inner {
   display: flex;
   flex-flow: column;
@@ -368,6 +395,7 @@ a.link:hover {
   position: relative;
 }
 
+/* Media + meta stack */
 .project__content {
   display: flex;
   flex-flow: column;
@@ -391,12 +419,14 @@ a.link:hover {
   position: relative;
 }
 
+/* Side-project media: narrower frame, 60% of the top row */
 .project__media--side {
   aspect-ratio: 1.508;
   flex: 0.6 0 0;
   width: 1px;
 }
 
+/* Shared media element (poster image or video) */
 .video {
   width: 100%;
   height: 100%;
@@ -421,6 +451,7 @@ a.link:hover {
   overflow: visible;
 }
 
+/* Year column (40%) */
 .project__year {
   display: flex;
   flex-flow: column;
@@ -435,6 +466,7 @@ a.link:hover {
   overflow: visible;
 }
 
+/* Description + credits wrapper (60%) */
 .project__info {
   display: flex;
   flex-flow: row;
@@ -449,6 +481,7 @@ a.link:hover {
   overflow: visible;
 }
 
+/* Description / credits row */
 .project__info-row {
   display: flex;
   flex-flow: row;
@@ -469,16 +502,19 @@ a.link:hover {
   align-items: flex-start;
 }
 
+/* Side-project content takes the remaining space */
 .project--side .project__content {
   flex: 1 0 0;
   width: 1px;
 }
 
+/* Side-project meta aligns to the right edge */
 .project--side .project__meta {
   place-content: flex-start flex-end;
   justify-content: flex-end;
 }
 
+/* Title + media row used by side projects */
 .project__top {
   display: flex;
   flex-flow: row;
@@ -514,6 +550,7 @@ a.link:hover {
 /* --------------------------------------------------------------------------
    9. Misc
    -------------------------------------------------------------------------- */
+/* Misc group: bottom padding closes the works area */
 .miscs {
   display: flex;
   flex-flow: column;
@@ -528,6 +565,7 @@ a.link:hover {
   overflow: visible;
 }
 
+/* One misc entry */
 .misc {
   flex: none;
   width: 100%;
@@ -535,6 +573,7 @@ a.link:hover {
   position: relative;
 }
 
+/* Misc inner padding */
 .misc__inner {
   display: flex;
   flex-flow: row;
@@ -546,6 +585,7 @@ a.link:hover {
   position: relative;
 }
 
+/* Misc content column */
 .misc__content {
   display: flex;
   flex-flow: column;
@@ -560,6 +600,7 @@ a.link:hover {
   overflow: visible;
 }
 
+/* Misc title + cover row */
 .misc__top {
   display: flex;
   flex-flow: row;
@@ -574,6 +615,7 @@ a.link:hover {
   overflow: visible;
 }
 
+/* Cover + credits row (60%) */
 .misc__row {
   display: flex;
   flex-flow: row;
@@ -587,6 +629,7 @@ a.link:hover {
   overflow: hidden;
 }
 
+/* Cover column (35%) */
 .misc__cover-col {
   display: flex;
   flex-flow: column;
@@ -601,6 +644,7 @@ a.link:hover {
   overflow: hidden;
 }
 
+/* Cover frame - portrait aspect ratio */
 .misc__cover {
   aspect-ratio: 0.876667;
   display: flex;
@@ -624,6 +668,7 @@ a.link:hover {
   overflow: hidden;
 }
 
+/* Poster image fills the cover */
 .misc__cover-bg img {
   width: 100%;
   height: 100%;
@@ -631,6 +676,7 @@ a.link:hover {
   object-position: center;
 }
 
+/* Foreground layer (held for the animated cover) */
 .misc__cover-img {
   flex: none;
   width: 100%;
@@ -639,6 +685,7 @@ a.link:hover {
   overflow: clip;
 }
 
+/* Animated cover image sits above the poster */
 .misc__cover-img img {
   /* Taken out of flow on purpose: the live build wraps the GIF in an
      absolutely positioned layer, so the cover box is sized purely by its
@@ -654,6 +701,7 @@ a.link:hover {
 /* --------------------------------------------------------------------------
    10. Hairline rule (animated separator)
    -------------------------------------------------------------------------- */
+/* Rule container: exactly one pixel tall */
 .info__rule {
   flex: none;
   width: 100%;
@@ -662,7 +710,7 @@ a.link:hover {
 }
 
 /* The rule track spans the full width of the page (Framer sets `width: 100%`
-   inline on this component) and the inner line grows from 0% to 100%. */
+   inline on this component) and the inner line draws itself in from the left. */
 .rule {
   display: flex;
   flex-flow: row;
@@ -676,22 +724,29 @@ a.link:hover {
   overflow: hidden;
 }
 
+/* Animated line: scaled from 0 to its full width when revealed.
+   (scaleX is used instead of an animated `width` so the line grows without
+   triggering layout on every frame.) */
 .rule__line {
   flex: none;
-  width: 0%;
+  width: 100%;
   height: 1px;
   position: relative;
   background: var(--rule);
-  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Revealed state, toggled by script.js */
 .rule.is-visible .rule__line {
-  width: 100%;
+  transform: scaleX(1);
 }
 
 /* --------------------------------------------------------------------------
    11. Info - bio, avatar, link lists
    -------------------------------------------------------------------------- */
+/* Info section shell */
 .info {
   display: flex;
   flex-flow: column;
@@ -709,6 +764,7 @@ a.link:hover {
   background: var(--bg);
 }
 
+/* Info row: label | avatar + bio + lists */
 .info__row {
   display: flex;
   flex-flow: row;
@@ -723,6 +779,7 @@ a.link:hover {
   background: var(--bg);
 }
 
+/* Right column of the info row (60%) */
 .info__right {
   display: flex;
   flex-flow: row;
@@ -737,6 +794,7 @@ a.link:hover {
   overflow: visible;
 }
 
+/* Inner row: bio column | link lists */
 .info__inner {
   display: flex;
   flex-flow: row;
@@ -750,6 +808,7 @@ a.link:hover {
   overflow: visible;
 }
 
+/* Bio column (35%) */
 .info__main {
   display: flex;
   flex-flow: column;
@@ -764,6 +823,7 @@ a.link:hover {
   overflow: clip;
 }
 
+/* Avatar frame */
 .info__avatar {
   flex: none;
   width: 85px;
@@ -771,6 +831,7 @@ a.link:hover {
   position: relative;
 }
 
+/* Avatar image fills the frame */
 .info__avatar img {
   width: 100%;
   height: 100%;
@@ -781,6 +842,7 @@ a.link:hover {
 /* --------------------------------------------------------------------------
    12. Testimonials
    -------------------------------------------------------------------------- */
+/* Testimonials row: label | quotes */
 .testimonials {
   display: flex;
   flex-flow: row;
@@ -795,6 +857,7 @@ a.link:hover {
   background: var(--bg);
 }
 
+/* Right column of the testimonials (60%) */
 .testimonials__right {
   display: flex;
   flex-flow: column;
@@ -809,6 +872,7 @@ a.link:hover {
   overflow: clip;
 }
 
+/* Vertical list of quotes */
 .testimonials__list {
   display: flex;
   flex-flow: column;
@@ -823,6 +887,7 @@ a.link:hover {
   overflow: visible;
 }
 
+/* One quote + attribution row */
 .testimonial {
   display: flex;
   flex-flow: row;
@@ -839,6 +904,7 @@ a.link:hover {
 /* --------------------------------------------------------------------------
    13. Timezone & live clock
    -------------------------------------------------------------------------- */
+/* Timezone section: label | clock + digital time */
 .timezone {
   display: flex;
   flex-flow: row;
@@ -853,6 +919,7 @@ a.link:hover {
   background: var(--bg);
 }
 
+/* Right column of the timezone (60%) */
 .timezone__right {
   display: flex;
   flex-flow: column;
@@ -867,6 +934,7 @@ a.link:hover {
   overflow: clip;
 }
 
+/* Clock + digital time stack */
 .timezone__inner {
   display: flex;
   flex-flow: column;
@@ -881,6 +949,7 @@ a.link:hover {
   overflow: visible;
 }
 
+/* Analogue clock column */
 .timezone__clock-col {
   flex: none;
   width: 100%;
@@ -888,6 +957,7 @@ a.link:hover {
   position: relative;
 }
 
+/* Digital time/date block under the clock */
 .timezone__datetime {
   display: flex;
   flex-flow: column;
@@ -902,6 +972,7 @@ a.link:hover {
   overflow: hidden;
 }
 
+/* Time/date text wrapper (shrink-wrapped) */
 .timezone__datetime-inner {
   display: flex;
   flex-flow: column;
@@ -916,6 +987,7 @@ a.link:hover {
   overflow: hidden;
 }
 
+/* Fixed-width text box (97px, as in the original) */
 .timezone__clock-text {
   display: flex;
   flex-flow: column;
@@ -930,6 +1002,7 @@ a.link:hover {
   overflow: hidden;
 }
 
+/* Time line */
 .timezone__time {
   display: flex;
   flex-flow: column;
@@ -945,6 +1018,7 @@ a.link:hover {
   background: var(--bg);
 }
 
+/* Date line */
 .timezone__date {
   display: flex;
   flex-flow: column;
@@ -989,6 +1063,7 @@ a.link:hover {
   will-change: transform;
 }
 
+/* Shared hand geometry, rotated via --angle */
 .clock__hand {
   position: absolute;
   top: 50%;
@@ -999,24 +1074,28 @@ a.link:hover {
   transform: translate(-50%, -100%) rotate(var(--angle, 0deg));
 }
 
+/* Hour hand */
 .clock__hand--hour {
   width: 3px;
   height: 35%;
   background: var(--copy);
 }
 
+/* Minute hand */
 .clock__hand--minute {
   width: 2px;
   height: 40%;
   background: var(--copy);
 }
 
+/* Second hand (accent colour) */
 .clock__hand--second {
   width: 1px;
   height: 45%;
   background: var(--accent);
 }
 
+/* Centre pin */
 .clock__pin {
   position: absolute;
   top: 50%;
@@ -1030,9 +1109,10 @@ a.link:hover {
 }
 
 /* --------------------------------------------------------------------------
-   Footer - one like control at the bottom left + the "V7" brand on the right
+   14. Footer - one like control at the bottom left + the "V7" brand on the right
    (replaces the three per-project like buttons; matches the original footer)
    -------------------------------------------------------------------------- */
+/* Footer row: like control | brand */
 .footer {
   display: flex;
   align-items: center;
@@ -1062,11 +1142,13 @@ a.link:hover {
   cursor: pointer;
 }
 
+/* Keyboard focus ring */
 .footer__like:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
+/* Liked state colour */
 .footer__like.is-liked {
   color: var(--accent);
 }
@@ -1083,14 +1165,17 @@ a.link:hover {
   stroke-linejoin: round;
 }
 
+/* Filled heart once liked */
 .footer__like.is-liked .like-icon {
   fill: currentColor;
 }
 
+/* Counter uses tabular figures */
 .like-count {
   font-variant-numeric: tabular-nums;
 }
 
+/* "V7" brand text */
 .footer__brand {
   margin: 0;
   color: var(--copy);
@@ -1102,24 +1187,28 @@ a.link:hover {
 }
 
 /* --------------------------------------------------------------------------
-   14. Responsive - tablet (600px - 1199.98px)
+   15. Responsive - tablet (600px - 1199.98px)
    -------------------------------------------------------------------------- */
 @media (min-width: 600px) and (max-width: 1199.98px) {
+  /* Shorter spacer on tablet */
   .spacer {
     height: 40vh;
   }
 
+  /* Tighter page padding */
   .intro,
   .testimonials {
     padding: 0 16px 80px;
   }
 
+  /* Wider body columns */
   .rt--bio,
   .rt--body,
   .rt--quote {
     flex: 0.45 0 0;
   }
 
+  /* Wider meta columns */
   .rt--year,
   .rt--meta,
   .rt--attribution,
@@ -1127,37 +1216,45 @@ a.link:hover {
     flex: 0.35 0 0;
   }
 
+  /* Smaller gap between work groups */
   .works {
     gap: 80px;
   }
 
+  /* Tighter project list rhythm */
   .projects,
   .side-projects,
   .testimonials__list {
     gap: 40px;
   }
 
+  /* Tighter misc bottom padding */
   .miscs {
     padding: 0 0 80px;
   }
 
+  /* Anchor offset for the info section */
   .info {
     scroll-margin-top: 48px;
   }
 
+  /* Info row padding */
   .info__row {
     padding: 40px 16px 24px;
   }
 
+  /* Wider bio column */
   .info__main {
     flex: 0.45 0 0;
     gap: 40px;
   }
 
+  /* Timezone padding */
   .timezone {
     padding: 40px 16px 160px;
   }
 
+  /* Footer padding */
   .footer {
     padding: 0 16px;
   }
@@ -1167,6 +1264,7 @@ a.link:hover {
     gap: 20px;
   }
 
+  /* The note may wrap on tablet */
   .rt--note {
     white-space: pre-wrap;
     word-break: break-word;
@@ -1179,22 +1277,27 @@ a.link:hover {
     padding: 0 16px;
   }
 
+  /* Tighter media/meta gap */
   .project__content {
     gap: 20px;
   }
 
+  /* Shorter media frame */
   .project__media {
     aspect-ratio: 1.425;
   }
 
+  /* Remove the gap between description and credits */
   .project__info {
     gap: 0;
   }
 
+  /* Body column ratio */
   .rt--body {
     flex: 0.45 0 0;
   }
 
+  /* Meta column ratio */
   .rt--meta {
     flex: 0.35 0 0;
   }
@@ -1204,10 +1307,12 @@ a.link:hover {
     padding: 0 16px;
   }
 
+  /* Side-project gap */
   .project--side .project__content {
     gap: 20px;
   }
 
+  /* Side-project media ratio */
   .project__media--side {
     aspect-ratio: 1.235;
   }
@@ -1218,15 +1323,17 @@ a.link:hover {
     gap: 20px;
   }
 
+  /* Cover aspect ratio */
   .misc__cover {
     aspect-ratio: 0.8975;
   }
 }
 
 /* --------------------------------------------------------------------------
-   15. Responsive - mobile (<= 599.98px)
+   16. Responsive - mobile (<= 599.98px)
    -------------------------------------------------------------------------- */
 @media (max-width: 599.98px) {
+  /* Shorter spacer on mobile */
   .spacer {
     height: 32vh;
   }
@@ -1245,6 +1352,7 @@ a.link:hover {
     padding: 0 8px 64px;
   }
 
+  /* Every label / right column becomes full width */
   .intro__left,
   .rt--bio,
   .info__label,
@@ -1260,12 +1368,14 @@ a.link:hover {
     width: 100%;
   }
 
+  /* Intro right column stacks */
   .intro__right {
     flex: none;
     gap: 10px;
     width: 100%;
   }
 
+  /* Intro row and quote rows stack */
   .intro__row,
   .testimonial {
     flex-direction: column;
@@ -1278,44 +1388,53 @@ a.link:hover {
     display: none;
   }
 
+  /* Show the grey mobile year at 25% width */
   .rt--year-mobile {
     display: block;
     flex: none;
     width: 25%;
   }
 
+  /* Gap between work groups */
   .works {
     gap: 64px;
   }
 
+  /* Selected projects first */
   .projects {
     order: 0;
     gap: 32px;
   }
 
+  /* Side projects second */
   .side-projects {
     order: 1;
     gap: 16px;
   }
 
+  /* Misc last */
   .miscs {
     order: 2;
     gap: 16px;
     padding: 0 0 48px;
   }
 
+  /* Misc entries stack after the heading */
   .misc {
     order: 1;
   }
 
+  /* Mobile "Misc" heading comes first */
   .miscs__title {
     order: 0;
   }
 
+  /* Anchor offset for the info section */
   .info {
     scroll-margin-top: 40px;
   }
 
+  /* Info row stacks */
   .info__row {
     flex-direction: column;
     justify-content: flex-start;
@@ -1323,12 +1442,14 @@ a.link:hover {
     padding: 32px 8px 24px;
   }
 
+  /* Bio and lists stack */
   .info__inner {
     flex-direction: column;
     justify-content: flex-start;
     gap: 24px;
   }
 
+  /* Full-width bio and time/date */
   .info__main,
   .timezone__datetime {
     flex: none;
@@ -1336,6 +1457,7 @@ a.link:hover {
     width: 100%;
   }
 
+  /* Testimonials stack */
   .testimonials {
     flex-direction: column;
     justify-content: flex-start;
@@ -1343,11 +1465,13 @@ a.link:hover {
     padding: 0 8px 64px;
   }
 
+  /* List gaps */
   .testimonials__list,
   .timezone__inner {
     gap: 24px;
   }
 
+  /* Timezone stacks */
   .timezone {
     flex-direction: column;
     justify-content: flex-start;
@@ -1355,25 +1479,30 @@ a.link:hover {
     padding: 32px 8px 128px;
   }
 
+  /* Footer padding */
   .footer {
     padding: 0 8px;
   }
 
+  /* Clock takes 35% of the stacked column */
   .timezone__clock-col {
     flex: none;
     width: 35%;
   }
 
+  /* Time/date text fills the row */
   .timezone__datetime-inner {
     width: 100%;
   }
 
+  /* Text aligned to the left edge */
   .timezone__clock-text {
     align-content: flex-start;
     align-items: flex-start;
     width: 100%;
   }
 
+  /* Note wraps on mobile */
   .rt--note {
     white-space: pre-wrap;
     word-break: break-word;
@@ -1396,15 +1525,18 @@ a.link:hover {
     padding: 0 8px;
   }
 
+  /* Tighter gap */
   .project__content {
     justify-content: flex-start;
     gap: 16px;
   }
 
+  /* Taller mobile media frame */
   .project__media {
     aspect-ratio: 0.831111;
   }
 
+  /* Meta and description stack */
   .project__meta,
   .project__info-row {
     flex-direction: column;
@@ -1412,6 +1544,7 @@ a.link:hover {
     gap: 16px;
   }
 
+  /* Full-width year / body / meta */
   .project__year,
   .rt--body,
   .rt--meta {
@@ -1419,6 +1552,7 @@ a.link:hover {
     width: 100%;
   }
 
+  /* Credits column full width */
   .project__info {
     flex: none;
     gap: 0;
@@ -1426,41 +1560,49 @@ a.link:hover {
   }
 
   /* Side project */
+  /* Side-project padding */
   .project--side .project__inner {
     justify-content: flex-start;
     gap: 0;
     padding: 0 8px 16px;
   }
 
+  /* Side-project gap */
   .project--side .project__content {
     gap: 16px;
   }
 
+  /* Title above media */
   .project__top {
     flex-direction: column;
     justify-content: flex-start;
     gap: 32px;
   }
 
+  /* Side-project media ratio */
   .project__media--side {
     aspect-ratio: 0.831111;
     flex: none;
     width: 100%;
   }
 
+  /* Side-project meta stacks */
   .project--side .project__meta {
     flex-direction: column;
     justify-content: flex-start;
   }
 
+  /* Gap between description and credits */
   .project--side .project__info {
     gap: 32px;
   }
 
+  /* Credits stack */
   .project--side .project__info-row {
     gap: 16px;
   }
 
+  /* Full-width body / meta */
   .rt--body,
   .rt--meta {
     flex: none;
@@ -1472,11 +1614,13 @@ a.link:hover {
     padding: 0 8px 16px;
   }
 
+  /* Misc title above the cover */
   .misc__top {
     flex-direction: column;
     gap: 16px;
   }
 
+  /* Cover + credits stack */
   .misc__row {
     flex-direction: column;
     flex: none;
@@ -1485,22 +1629,26 @@ a.link:hover {
     width: 100%;
   }
 
+  /* Cover column full width */
   .misc__cover-col {
     flex: none;
     gap: 16px;
     width: 100%;
   }
 
+  /* Cover aspect ratio */
   .misc__cover {
     aspect-ratio: 0.831111;
   }
 
+  /* Foreground layer takes the remaining width */
   .misc__cover-img {
     flex: 1 0 0;
     width: 1px;
     height: 100%;
   }
 
+  /* Meta column full width */
   .rt--meta {
     flex: none;
     width: 100%;

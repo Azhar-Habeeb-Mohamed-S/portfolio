@@ -18,12 +18,14 @@
   const dateElement = document.getElementById("clock-date");
   const clockElement = document.querySelector(".clock");
 
+  // "7:44 PM" - 12-hour clock with a leading-zero-free hour.
   const timeFormatter = new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
     minute: "2-digit",
     hour12: true,
   });
 
+  // "Nov 17, 2026" - short month, day, full year.
   const dateFormatter = new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
@@ -60,6 +62,7 @@
     }
   };
 
+  /** Writes the digital time/date and rotates the analogue hands. */
   const updateClock = () => {
     const now = new Date();
     if (timeElement) timeElement.textContent = timeFormatter.format(now);
@@ -74,10 +77,10 @@
 
   /* ------------------------------------------------------------------
      2. Hairline rules
-     Each .rule__line starts at width 0 and grows to 100% (see styles.css).
-     A rule is revealed as soon as it has been reached, which also covers
-     instant jumps (anchor links, restored scroll position) where an
-     IntersectionObserver can miss the element entirely.
+     Each .rule__line starts scaled to 0 and grows to its full width
+     (see styles.css). A rule is revealed as soon as it has been reached,
+     which also covers instant jumps (anchor links, restored scroll
+     position) where an IntersectionObserver can miss the element entirely.
      ------------------------------------------------------------------ */
   const rules = Array.from(document.querySelectorAll(".rule"));
 
