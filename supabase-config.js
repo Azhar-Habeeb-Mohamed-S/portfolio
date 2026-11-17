@@ -8,6 +8,6 @@
    per browser in localStorage. See SUPABASE.md for the setup steps.
    ========================================================================== */
 window.AZHAR_SUPABASE = {
-  url: "",
-  anonKey: "",
+  url: "https://hrqdxruhxygaqjwidbun.supabase.co",
+  anonKey: "sb_publishable_852t6596oGXq6FZHMLFEUw_YCTgpvcG",
 };
