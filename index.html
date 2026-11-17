@@ -81,15 +81,7 @@
                 <div class="project__inner">
                   <div class="project__content">
                     <div class="project__media">
-                      <video
-                        class="video"
-                        src=""
-                        poster="images/SJCvb3fap5nW9LnMleHN23RfwrA.png"
-                        loop
-                        muted
-                        playsinline
-                        preload="none"
-                      ></video>
+                      <img class="video" src="images/SJCvb3fap5nW9LnMleHN23RfwrA.png" alt="" loading="lazy" />
                     </div>
                     <header class="project__meta">
                       <div class="project__year">
@@ -108,8 +100,6 @@
                         </div>
                       </div>
                     </header>
-                    <!-- Like button (client change): toggles a heart and persists in localStorage -->
-                    <div class="project__like-btn" data-project-id="project-1"></div>
                   </div>
                 </div>
               </article>
@@ -121,15 +111,7 @@
                 <div class="project__inner">
                   <div class="project__content">
                     <div class="project__media">
-                      <video
-                        class="video"
-                        src=""
-                        poster="images/SJCvb3fap5nW9LnMleHN23RfwrA.png"
-                        loop
-                        muted
-                        playsinline
-                        preload="none"
-                      ></video>
+                      <img class="video" src="images/SJCvb3fap5nW9LnMleHN23RfwrA.png" alt="" loading="lazy" />
                     </div>
                     <header class="project__meta">
                       <div class="project__year">
@@ -156,8 +138,6 @@
                         </div>
                       </div>
                     </header>
-                    <!-- Like button (client change): toggles a heart and persists in localStorage -->
-                    <div class="project__like-btn" data-project-id="project-2"></div>
                   </div>
                 </div>
               </article>
@@ -169,15 +149,7 @@
                 <div class="project__inner">
                   <div class="project__content">
                     <div class="project__media">
-                      <video
-                        class="video"
-                        src=""
-                        poster="images/SJCvb3fap5nW9LnMleHN23RfwrA.png"
-                        loop
-                        muted
-                        playsinline
-                        preload="none"
-                      ></video>
+                      <img class="video" src="images/SJCvb3fap5nW9LnMleHN23RfwrA.png" alt="" loading="lazy" />
                     </div>
                     <header class="project__meta">
                       <div class="project__year">
@@ -205,8 +177,6 @@
                         </div>
                       </div>
                     </header>
-                    <!-- Like button (client change): toggles a heart and persists in localStorage -->
-                    <div class="project__like-btn" data-project-id="project-3"></div>
                   </div>
                 </div>
               </article>
@@ -232,15 +202,7 @@
                         <p class="label">Side projects</p>
                       </div>
                       <div class="project__media project__media--side">
-                        <video
-                          class="video"
-                          src=""
-                          poster="images/SJCvb3fap5nW9LnMleHN23RfwrA.png"
-                          loop
-                          muted
-                          playsinline
-                          preload="none"
-                        ></video>
+                        <img class="video" src="images/SJCvb3fap5nW9LnMleHN23RfwrA.png" alt="" loading="lazy" />
                       </div>
                     </div>
                     <header class="project__meta">
@@ -271,15 +233,7 @@
                         <p class="label"></p>
                       </div>
                       <div class="project__media project__media--side">
-                        <video
-                          class="video"
-                          src=""
-                          poster="images/SJCvb3fap5nW9LnMleHN23RfwrA.png"
-                          loop
-                          muted
-                          playsinline
-                          preload="none"
-                        ></video>
+                        <img class="video" src="images/SJCvb3fap5nW9LnMleHN23RfwrA.png" alt="" loading="lazy" />
                       </div>
                     </div>
                     <header class="project__meta">
@@ -616,6 +570,22 @@
             </div>
           </div>
         </section>
+
+        <!-- ============================================================
+             FOOTER - a single like button on the left, "V7" brand on the right
+             (matches the original page; the three per-project like buttons
+             were removed at the client's request).
+             ============================================================ -->
+        <footer class="footer">
+          <button class="footer__like" type="button" aria-pressed="false" aria-label="Like this site">
+            <svg class="like-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 21s-7.2-4.7-9.6-9A5.4 5.4 0 0 1 12 6.6 5.4 5.4 0 0 1 21.6 12c-2.4 4.3-9.6 9-9.6 9Z" />
+            </svg>
+            <span class="like-count">0</span>
+          </button>
+
+          <p class="footer__brand">V7</p>
+        </footer>
       </div>
     </div>
 

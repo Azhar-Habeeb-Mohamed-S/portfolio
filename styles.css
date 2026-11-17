@@ -391,84 +391,6 @@ a.link:hover {
   position: relative;
 }
 
-/* --------------------------------------------------------------------------
-   Project like button (client addition - not part of the original Framer page)
-   A pill-shaped heart + "Like" + count control that sits under each project's
-   meta row. It is deliberately visible at rest (border + label) so it reads as
-   an interactive control rather than a stray glyph. State is kept in
-   localStorage by script.js.
-   -------------------------------------------------------------------------- */
-.project__like-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  align-self: flex-start;
-  min-height: 32px;
-  padding: 6px 14px 6px 12px;
-  background: transparent;
-  border: 1px solid rgba(0, 0, 0, 0.16);
-  border-radius: 999px;
-  color: var(--copy);
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  user-select: none;
-  transition:
-    color 0.2s ease,
-    border-color 0.2s ease,
-    background-color 0.2s ease;
-}
-
-/* Hovering previews the active state */
-.project__like-btn:hover {
-  color: var(--accent);
-  border-color: currentColor;
-}
-
-/* Keyboard focus ring (the div is role="button" + tabindex="0") */
-.project__like-btn:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-/* Liked projects use the site accent colour */
-.project__like-btn.is-liked {
-  color: var(--accent);
-  border-color: currentColor;
-  background: rgba(234, 100, 75, 0.07);
-}
-
-/* "Like" / "Liked" label */
-.like-label {
-  font: inherit;
-  letter-spacing: inherit;
-}
-
-/* Heart glyph - outline by default, filled when liked */
-.like-icon {
-  display: block;
-  flex: none;
-  width: 14px;
-  height: 14px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linejoin: round;
-}
-
-.project__like-btn.is-liked .like-icon {
-  fill: currentColor;
-}
-
-/* Numeric like counter (tabular figures so the width does not jump) */
-.like-count {
-  font-variant-numeric: tabular-nums;
-  opacity: 0.65;
-}
-
 .project__media--side {
   aspect-ratio: 1.508;
   flex: 0.6 0 0;
@@ -950,20 +872,7 @@ a.link:hover {
   flex-flow: column;
   place-content: flex-start;
   align-items: flex-start;
-  gap: 48px;
-  flex: none;
-  width: 100%;
-  height: min-content;
-  padding: 0;
-  position: relative;
-  overflow: visible;
-}
-
-.timezone__row {
-  display: flex;
-  flex-flow: row;
-  place-content: flex-start space-between;
-  align-items: flex-start;
+  gap: 24px;
   flex: none;
   width: 100%;
   height: min-content;
@@ -973,8 +882,8 @@ a.link:hover {
 }
 
 .timezone__clock-col {
-  flex: 0.35 0 0;
-  width: 1px;
+  flex: none;
+  width: 100%;
   height: auto;
   position: relative;
 }
@@ -985,8 +894,8 @@ a.link:hover {
   place-content: flex-start;
   align-items: flex-start;
   gap: 24px;
-  flex: 0.25 0 0;
-  width: 1px;
+  flex: none;
+  width: 100%;
   height: min-content;
   padding: 0;
   position: relative;
@@ -996,8 +905,8 @@ a.link:hover {
 .timezone__datetime-inner {
   display: flex;
   flex-flow: column;
-  place-content: flex-end;
-  align-items: flex-end;
+  place-content: flex-start;
+  align-items: flex-start;
   gap: 0;
   flex: none;
   width: min-content;
@@ -1010,8 +919,8 @@ a.link:hover {
 .timezone__clock-text {
   display: flex;
   flex-flow: column;
-  place-content: flex-end flex-start;
-  align-items: flex-end;
+  place-content: flex-start;
+  align-items: flex-start;
   gap: 0;
   flex: none;
   width: 97px;
@@ -1053,7 +962,7 @@ a.link:hover {
 /* The digital time/date use a slightly smaller size than the body text */
 .clock-text {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   height: 100%;
@@ -1121,18 +1030,75 @@ a.link:hover {
 }
 
 /* --------------------------------------------------------------------------
-   Client change: the digital time/date now sits BELOW the analogue clock.
-   .timezone__inner is already a column container, so letting both children
-   take the full width stacks them; the inner gap provides the spacing
-   (48px desktop / 40px tablet / 32px mobile). The .timezone__row rule above
-   is retained for reference but is no longer used by the markup.
-   NOTE: this must stay after the .timezone__clock-col / .timezone__datetime
-   definitions so it wins the cascade on desktop.
+   Footer - one like control at the bottom left + the "V7" brand on the right
+   (replaces the three per-project like buttons; matches the original footer)
    -------------------------------------------------------------------------- */
-.timezone__clock-col,
-.timezone__datetime {
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   flex: none;
   width: 100%;
+  min-height: 56px;
+  padding: 0 24px;
+  background: var(--bg);
+}
+
+/* Heart + counter. Plain text button, no pill or border, like the original. */
+.footer__like {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--copy);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5em;
+  letter-spacing: 0.0094em;
+  cursor: pointer;
+}
+
+.footer__like:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.footer__like.is-liked {
+  color: var(--accent);
+}
+
+/* Heart glyph - outline by default, filled once liked */
+.like-icon {
+  display: block;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.footer__like.is-liked .like-icon {
+  fill: currentColor;
+}
+
+.like-count {
+  font-variant-numeric: tabular-nums;
+}
+
+.footer__brand {
+  margin: 0;
+  color: var(--copy);
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5em;
+  letter-spacing: 0.0094em;
 }
 
 /* --------------------------------------------------------------------------
@@ -1150,8 +1116,7 @@ a.link:hover {
 
   .rt--bio,
   .rt--body,
-  .rt--quote,
-  .timezone__clock-col {
+  .rt--quote {
     flex: 0.45 0 0;
   }
 
@@ -1168,8 +1133,7 @@ a.link:hover {
 
   .projects,
   .side-projects,
-  .testimonials__list,
-  .timezone__inner {
+  .testimonials__list {
     gap: 40px;
   }
 
@@ -1194,12 +1158,12 @@ a.link:hover {
     padding: 40px 16px 160px;
   }
 
-  /* Client change: time/date sits below the clock, so it must not take a
-     fractional flex share of the (column) timezone stack - that would
-     collapse its height to 0 and clip the text. */
+  .footer {
+    padding: 0 16px;
+  }
+
+  /* Digital time/date sits directly under the analogue clock */
   .timezone__datetime {
-    flex: none;
-    width: 100%;
     gap: 20px;
   }
 
@@ -1303,8 +1267,7 @@ a.link:hover {
   }
 
   .intro__row,
-  .testimonial,
-  .timezone__row {
+  .testimonial {
     flex-direction: column;
     justify-content: flex-start;
     gap: 16px;
@@ -1382,7 +1345,7 @@ a.link:hover {
 
   .testimonials__list,
   .timezone__inner {
-    gap: 32px;
+    gap: 24px;
   }
 
   .timezone {
@@ -1390,6 +1353,10 @@ a.link:hover {
     justify-content: flex-start;
     gap: 16px;
     padding: 32px 8px 128px;
+  }
+
+  .footer {
+    padding: 0 8px;
   }
 
   .timezone__clock-col {
