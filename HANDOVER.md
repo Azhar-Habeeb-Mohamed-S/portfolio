@@ -197,34 +197,30 @@ clock. Both rules animate the same way.
 Two columns: `.timezone__label` on the left (only `GMT+8`) and
 `.timezone__right` on the right, which is a **row** flex container split 75 / 25:
 
-1. `.timezone__inner` (75 % desktop / 65 % tablet) holds only the analogue
-   clock: `.timezone__clock-col` → `.clock`, a 120 px face with three hands
-   (`.clock__hand--hour`, `--minute`, `--second`) and an accent centre pin.
-   The face keeps the 120 px size but shrinks (`max-width: 100%;
-   aspect-ratio: 1 / 1`) on very narrow phones. Hands are rotated by the CSS
-   custom property `--angle`, written by `script.js`.
-2. `.timezone__side` (25 % desktop / 35 % tablet) is the right-hand stack,
-   top-aligned with the clock: `.timezone__datetime` → digital
-   `#clock-time` (`7:30 PM`) and `#clock-date` (`Nov 18, 2026`) sits above
-   `.rt--note`, which holds exactly **three** `xxx` placeholders followed by
-   the heart like button. This matches the original page: the clock is on the
-   left, the time/date and `xxx` lines on the right at the same top level.
-   The stack starts at the testimonial attribution column's x-position
-   (x = 1194 px at 1425 px desktop, 690 px at 885 px tablet) so it lines up
-   with `Fion Leung / Time Auction` above the rule. On mobile everything
-   stacks vertically at the left edge.
+1. `.timezone__inner` (75 %) is a **column** flex container holding:
+   - `.timezone__clock-col` → `.clock` — 120 px analogue face with three hands
+     (`.clock__hand--hour`, `--minute`, `--second`) and an accent centre pin.
+     The face keeps the 120 px size but shrinks (`max-width: 100%;
+     aspect-ratio: 1 / 1`) on very narrow phones.
+     Hands are rotated by CSS custom property `--angle`, written by `script.js`.
+   - `.timezone__datetime` → digital `#clock-time` (`7:30 PM`) and `#clock-date`
+     (`Nov 17, 2026`), stacked directly beneath the analogue clock.
+2. `.timezone__right > .rt--note` holds exactly **two** `xxx`
+   placeholders. Its width is **25 %** on desktop (x = 1194 px at 1425 px wide)
+   and **35 %** on tablet, where it matches the testimonial attribution column
+   so the note starts at the same x-position as `Fion Leung / Time Auction`
+   above the rule. On mobile it stacks at the left edge.
 
-The clock column and the right stack are top-aligned; inside `.timezone__side`
-the gap is **16 px** desktop / tablet and **8 px** mobile. On mobile
-`.timezone__right` becomes a column with an **8 px** gap, so the stack follows
-the clock closely.
+Stack spacing comes from the `.timezone__inner` gap: **24 px** desktop /
+**20 px** tablet / **16 px** mobile. On mobile `.timezone__right` becomes a
+column again with an **8 px** gap, so the note follows the time/date closely.
 The note's markup has no stray indentation text nodes (the container uses
 `white-space: pre`), which otherwise added ~45 px above the `xxx` lines.
 
 ### 4.8 Like button — `.like-button`
 
 The single like button (heart + count) is the last child of the `.rt--note`
-column, directly under the three `xxx` placeholders with a 24 px top margin.
+column, directly under the two `xxx` placeholders with a 24 px top margin.
 It inherits the note's left edge at every width, so it lines up exactly under
 the placeholders on desktop, tablet and mobile. There are **no** per-project
 like buttons and no separate footer element. The heart SVG has a **2.5** stroke
@@ -369,14 +365,14 @@ These are client-approved changes; do not “fix” them back without asking.
    files are gone. No reference to `framer.com` remains.
 2. **Media removed** — the two project videos and two GIFs were deleted. Every
    media slot now shows the original grey poster image.
-3. **Digital time/date moved** — restored to the original right-hand stack, above
-   the `xxx` lines and top-aligned with the analogue clock on the left.
+3. **Digital time/date moved** — it sits directly **below** the analogue clock
+   (24/20/16 px gap) instead of the original right-hand position.
 4. **One like button only** - a single heart + count directly below the
-   three `xxx` lines, left edges aligned. The three per-project like buttons
+   `xxx xxx` note, left edges aligned. The three per-project like buttons
    added in the first client round are gone.
-5. **Three placeholders on the right** — the note holds three `xxx` lines,
-   like the original, in the last quarter of the timezone row at the same
-   x-position as the attribution column above the rule.
+5. **Two placeholders on the right** — the note holds two `xxx` lines (the
+   original had three) and sits in the last quarter of the timezone row, at the
+   same x-position as the original's note.
 6. **Empty portrait slot** — the old avatar image was removed; `.info__avatar`
    keeps an empty 85 x 95 frame for the client’s own photo.
 

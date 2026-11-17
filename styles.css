@@ -969,25 +969,11 @@ a.link:hover {
   overflow: visible;
 }
 
-/* Right-hand stack: digital time/date above the three placeholders.
-   It starts at the same x-position as the note on the original page and its
-   top edge is level with the clock in the left column. */
-.timezone__side {
-  display: flex;
-  flex-flow: column;
-  place-content: flex-start;
-  align-items: flex-start;
-  gap: 16px;
+/* The two placeholder rows sit on the right side of the timezone row, in the
+   last quarter - the same x-position as the note on the original page. */
+.timezone__right > .rt--note {
   flex: 0.25 0 0;
   width: 1px;
-  height: min-content;
-  position: relative;
-}
-
-/* The placeholders fill the right-hand stack. */
-.timezone__side > .rt--note {
-  flex: none;
-  width: 100%;
 }
 
 /* Analogue clock column */
@@ -1291,14 +1277,14 @@ a.link:hover {
     width: 35%;
   }
 
-  /* On tablet the testimonial attribution column is 35% wide, so the right
-     stack (time/date + placeholders) must start at the same x-position. The
-     clock keeps 65% on the left. */
+  /* On tablet the testimonial attribution column is 35% wide, so the note
+     must be the same width to start at the same x-position. The clock keeps
+     its full 65% stack on the left. */
   .timezone__inner {
     flex: 0.65 0 0;
   }
 
-  .timezone__side {
+  .timezone__right > .rt--note {
     flex: 0.35 0 0;
   }
 
@@ -1517,14 +1503,9 @@ a.link:hover {
   }
 
   .timezone__inner,
-  .timezone__side {
+  .timezone__right > .rt--note {
     flex: none;
     width: 100%;
-  }
-
-  /* Time/date and the placeholders stack tightly on narrow screens. */
-  .timezone__side {
-    gap: 8px;
   }
 
   /* Clock to digital time on narrow screens */
