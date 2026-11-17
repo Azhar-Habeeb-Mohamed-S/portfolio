@@ -1495,16 +1495,22 @@ a.link:hover {
     padding: 32px 8px 128px;
   }
 
-  /* The clock stack and the note stack vertically on mobile */
+  /* The clock stack and the note stack vertically on mobile.
+     Tighter gaps keep the xxx placeholders close to the clock/time. */
   .timezone__right {
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
   }
 
   .timezone__inner,
   .timezone__right > .rt--note {
     flex: none;
     width: 100%;
+  }
+
+  /* Clock to digital time on narrow screens */
+  .timezone__inner {
+    gap: 16px;
   }
 
   /* Clock takes 35% of the stacked column */

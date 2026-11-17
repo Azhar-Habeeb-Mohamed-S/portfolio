@@ -213,7 +213,9 @@ Two columns: `.timezone__label` on the left (only `GMT+8`) and
 
 Stack spacing comes from the `.timezone__inner` gap: **24 px** desktop /
 **20 px** tablet / **16 px** mobile. On mobile `.timezone__right` becomes a
-column again, so the note follows the time/date.
+column again with an **8 px** gap, so the note follows the time/date closely.
+The note's markup has no stray indentation text nodes (the container uses
+`white-space: pre`), which otherwise added ~45 px above the `xxx` lines.
 
 ### 4.8 Like button — `.like-button`
 
