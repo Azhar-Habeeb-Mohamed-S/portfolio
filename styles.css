@@ -72,6 +72,23 @@ body {
   line-height: 1.5em;
 }
 
+/* Buttons must be plain text/icon only: browsers otherwise paint their own
+   grey bevel and a rectangular tap target around them. */
+button {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* Remove default margins from block text elements */
 h1,
 h2,
@@ -1130,28 +1147,24 @@ a.link:hover {
    It lives inside the note column, so it inherits the note's left edge; the
    top margin leaves one blank line between the placeholders and the heart. */
 .like-button {
-  display: flex;
+  display: inline-flex;
   width: max-content;
   align-items: center;
   gap: 7px;
   margin-top: 24px;
-  min-height: 36px;
-  padding: 0;
-  border: 0;
-  background: none;
   color: var(--copy);
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: 500;
   line-height: 1.5em;
-  letter-spacing: 0.0094em;
-  cursor: pointer;
 }
 
-/* Keyboard focus ring - black, never the accent colour */
+/* Keyboard focus: underline the count instead of drawing a box around the
+   button (the outline is removed so no rectangle appears on click/focus). */
 .like-button:focus-visible {
-  outline: 2px solid var(--copy);
-  outline-offset: 3px;
+  outline: none;
+}
+
+.like-button:focus-visible .like-count {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* Liked state: the heart simply fills in; the colour stays the black/charcoal

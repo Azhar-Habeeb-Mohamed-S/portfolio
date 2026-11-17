@@ -222,7 +222,10 @@ column, directly under the two `xxx` placeholders with a 24 px top margin.
 It inherits the note's left edge at every width, so it lines up exactly under
 the placeholders on desktop, tablet and mobile. There are **no** per-project
 like buttons and no separate footer element. The heart SVG has a **4.1** stroke
-width (+2.5 over the original 1.6).
+width (+2.5 over the original 1.6). A global `button` reset (`appearance: none`,
+no border/background/padding) plus critical inline styles on the button keep the
+native grey "box" from appearing in any browser, even with a cached stylesheet.
+Keyboard focus underlines the count instead of drawing an outline box.
 
 ---
 
