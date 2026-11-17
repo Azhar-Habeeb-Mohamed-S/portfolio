@@ -393,31 +393,58 @@ a.link:hover {
 
 /* --------------------------------------------------------------------------
    Project like button (client addition - not part of the original Framer page)
-   A small heart + count control that sits under each project's meta row.
-   State is kept in localStorage by script.js.
+   A pill-shaped heart + "Like" + count control that sits under each project's
+   meta row. It is deliberately visible at rest (border + label) so it reads as
+   an interactive control rather than a stray glyph. State is kept in
+   localStorage by script.js.
    -------------------------------------------------------------------------- */
 .project__like-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   align-self: flex-start;
-  padding: 2px 0;
+  min-height: 32px;
+  padding: 6px 14px 6px 12px;
   background: transparent;
-  border: 0;
-  color: var(--label);
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  border-radius: 999px;
+  color: var(--copy);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.02em;
   cursor: pointer;
   user-select: none;
-  transition: color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 /* Hovering previews the active state */
 .project__like-btn:hover {
-  color: var(--copy);
+  color: var(--accent);
+  border-color: currentColor;
+}
+
+/* Keyboard focus ring (the div is role="button" + tabindex="0") */
+.project__like-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* Liked projects use the site accent colour */
 .project__like-btn.is-liked {
   color: var(--accent);
+  border-color: currentColor;
+  background: rgba(234, 100, 75, 0.07);
+}
+
+/* "Like" / "Liked" label */
+.like-label {
+  font: inherit;
+  letter-spacing: inherit;
 }
 
 /* Heart glyph - outline by default, filled when liked */
@@ -439,6 +466,7 @@ a.link:hover {
 /* Numeric like counter (tabular figures so the width does not jump) */
 .like-count {
   font-variant-numeric: tabular-nums;
+  opacity: 0.65;
 }
 
 .project__media--side {

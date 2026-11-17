@@ -165,28 +165,34 @@
       const projectId = button.dataset.projectId;
       const state = likes[projectId] || { liked: false, count: 0 };
 
-      // Build the control once: heart SVG followed by the counter.
+      // Build the control once: heart SVG, "Like" label, then the counter.
       button.innerHTML =
         '<svg class="like-icon" viewBox="0 0 24 24" aria-hidden="true">' +
         '<path d="M12 21s-7.2-4.7-9.6-9A5.4 5.4 0 0 1 12 6.6 5.4 5.4 0 0 1 21.6 12c-2.4 4.3-9.6 9-9.6 9Z"/>' +
         "</svg>" +
+        '<span class="like-label">Like</span>' +
         '<span class="like-count">' +
         state.count +
         "</span>";
 
       const countElement = button.querySelector(".like-count");
+      const labelElement = button.querySelector(".like-label");
 
-      /** Pushes `state` into the DOM (class, aria state, number). */
+      /** Pushes `state` into the DOM (class, aria state, label, number). */
       const sync = () => {
         button.classList.toggle("is-liked", state.liked);
         button.setAttribute("aria-pressed", String(state.liked));
+        button.setAttribute(
+          "aria-label",
+          state.liked ? "Unlike this project" : "Like this project"
+        );
+        labelElement.textContent = state.liked ? "Liked" : "Like";
         countElement.textContent = String(state.count);
       };
 
       // Make the div behave like a real button for keyboard + screen readers.
       button.setAttribute("role", "button");
       button.setAttribute("tabindex", "0");
-      button.setAttribute("aria-label", "Like this project");
       sync();
 
       /** Flips the like, clamps the counter at zero and saves. */
