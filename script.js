@@ -123,7 +123,16 @@
       { threshold: 0.4 }
     );
 
-    rules.forEach((rule) => ruleObserver.observe(rule));
+    // A rule that is already above the viewport on load (for example when the
+    // browser restores a previous scroll position) can never intersect, so
+    // reveal it straight away instead of leaving it stuck at width 0.
+    rules.forEach((rule) => {
+      if (rule.getBoundingClientRect().bottom < 0) {
+        rule.classList.add("is-visible");
+      } else {
+        ruleObserver.observe(rule);
+      }
+    });
   }
 
   /* ------------------------------------------------------------------
