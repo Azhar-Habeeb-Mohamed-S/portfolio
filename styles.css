@@ -726,8 +726,8 @@ a.link:hover {
 
 /* Animated line: scaled from 0 to its full width when revealed.
    (scaleX is used instead of an animated `width` so the line grows without
-   triggering layout on every frame. 0.8s with an ease-in-out curve gives a
-   smooth, even draw in both directions.) */
+   triggering layout on every frame. 0.5s with an ease-out curve matches the
+   quick draw of the original Framer page.) */
 .rule__line {
   flex: none;
   width: 100%;
@@ -736,7 +736,7 @@ a.link:hover {
   background: var(--rule);
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Revealed state, toggled by script.js */
@@ -1133,11 +1133,13 @@ a.link:hover {
   background: var(--bg);
 }
 
-/* Heart + counter. Plain text button, no pill or border, like the original. */
+/* Heart + counter. Plain text button, no pill or border, like the original.
+   The glyph is pulled flush to the page padding so the heart starts at the
+   same 24px inset as the labels above it. */
 .footer__like {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   min-height: 36px;
   padding: 0;
   border: 0;
@@ -1149,17 +1151,19 @@ a.link:hover {
   line-height: 1.5em;
   letter-spacing: 0.0094em;
   cursor: pointer;
+  transform: translateX(-1.6px);
 }
 
-/* Keyboard focus ring */
+/* Keyboard focus ring - black, never the accent colour */
 .footer__like:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--copy);
   outline-offset: 3px;
 }
 
-/* Liked state colour */
+/* Liked state: the heart simply fills in; the colour stays the black/charcoal
+   of the original site (no red accent). */
 .footer__like.is-liked {
-  color: var(--accent);
+  color: var(--copy);
 }
 
 /* Heart glyph - outline by default, filled once liked */

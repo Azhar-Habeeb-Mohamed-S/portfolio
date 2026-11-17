@@ -295,8 +295,8 @@ observer code restored.
 ### Change the rule animation
 
 `styles.css` section 10: `.rule__line` holds `transform: scaleX(0)`,
-`transform-origin: left center`, `transition: transform 0.8s
-cubic-bezier(0.65, 0, 0.35, 1)` (smooth ease-in-out) and the
+`transform-origin: left center`, `transition: transform 0.5s
+cubic-bezier(0.22, 1, 0.36, 1)` (quick ease-out, matching the original) and the
 `.rule.is-visible .rule__line { transform: scaleX(1) }` end state. Change
 duration or easing there; the trigger logic (80 % of the viewport, toggled so
 the draw replays on every scroll) is in `script.js` section 2. Both rules -
@@ -322,7 +322,7 @@ page has no JS breakpoints, so editing the queries is enough.
 | `--bg` | `#ffffff` | page background |
 | `--label` | `#888888` | muted labels, clock face |
 | `--copy` | `#3d3d3d` | body text |
-| `--accent` | `#ea644b` | clock pin, liked heart, focus rings |
+| `--accent` | `#ea644b` | clock centre pin |
 | `--rule` | `#d1d1d1` | hairline rules |
 | `--font` | Inter stack | everything |
 
