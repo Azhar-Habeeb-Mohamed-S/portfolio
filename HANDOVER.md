@@ -64,7 +64,7 @@ The whole page is **flexbox**, mirroring the original Framer export.
     <section class="testimonials">
     <div class="info__rule">  <!-- rule above the clock -->
     <section class="timezone"> <!-- clock + digital time/date -->
-    <footer class="footer">   <!-- like button + "V7" -->
+    <footer class="footer">   <!-- single like button, bottom left -->
   </div>
 </div>
 ```
@@ -214,7 +214,7 @@ Stack spacing comes from the `.timezone__inner` gap: **24 px** desktop /
 
 ### 4.8 Footer — `footer.footer`
 
-56 px tall. A single like button (heart + count) on the left, `V7` on the right.
+56 px tall. A single like button (heart + count) on the left and nothing else.
 There are **no** per-project like buttons.
 
 ---
@@ -240,12 +240,13 @@ Each `.rule__line` starts at `transform: scaleX(0)` and transitions to
 `scaleX(1)` (origin left) when its `.rule` parent gets `.is-visible`. Using a
 transform instead of an animated `width` keeps the growth off the layout path.
 
-`script.js` checks each rule’s `getBoundingClientRect().top` against **80 % of
-the viewport height** on scroll and resize, so the line starts drawing while it
-is clearly on screen instead of at the very bottom edge. This intentionally
+`script.js` toggles `.is-visible` based on the rule’s position: it is added
+once the rule’s top passes **80 % of the viewport height** and removed as soon
+as the rule leaves the viewport (above or below). Because the class is removed
+again, the line resets to `scaleX(0)` and **draws itself in every time the
+visitor scrolls back to it**, rather than only once per page load. This also
 replaces an `IntersectionObserver`: a rule that is already above the viewport
-(restored scroll position, anchor jump) would never intersect and would stay
-invisible.
+(restored scroll position, anchor jump) would never intersect.
 
 Scroll events are batched with `requestAnimationFrame` (one layout read per
 frame).
@@ -296,11 +297,12 @@ observer code restored.
 ### Change the rule animation
 
 `styles.css` section 10: `.rule__line` holds `transform: scaleX(0)`,
-`transform-origin: left center`, `transition: transform 0.7s
-cubic-bezier(0.22, 1, 0.36, 1)` and the `.rule.is-visible .rule__line {
-transform: scaleX(1) }` end state. Change duration or easing there; the trigger
-logic (80 % of the viewport) is in `script.js` section 2. Both rules - above
-`He/him` and above the clock - use the same class and the same timing.
+`transform-origin: left center`, `transition: transform 0.8s
+cubic-bezier(0.65, 0, 0.35, 1)` (smooth ease-in-out) and the
+`.rule.is-visible .rule__line { transform: scaleX(1) }` end state. Change
+duration or easing there; the trigger logic (80 % of the viewport, toggled so
+the draw replays on every scroll) is in `script.js` section 2. Both rules -
+above `He/him` and above the clock - use the same class and the same timing.
 
 ### Make the like button real
 

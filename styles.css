@@ -726,8 +726,8 @@ a.link:hover {
 
 /* Animated line: scaled from 0 to its full width when revealed.
    (scaleX is used instead of an animated `width` so the line grows without
-   triggering layout on every frame. 0.7s reads as a quick, natural draw - a
-   longer duration looked like a slow wipe rather than a line being drawn.) */
+   triggering layout on every frame. 0.8s with an ease-in-out curve gives a
+   smooth, even draw in both directions.) */
 .rule__line {
   flex: none;
   width: 100%;
@@ -736,7 +736,7 @@ a.link:hover {
   background: var(--rule);
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 /* Revealed state, toggled by script.js */
@@ -1117,14 +1117,14 @@ a.link:hover {
 }
 
 /* --------------------------------------------------------------------------
-   14. Footer - one like control at the bottom left + the "V7" brand on the right
-   (replaces the three per-project like buttons; matches the original footer)
+   14. Footer - a single like control at the bottom left
+   (replaces the three per-project like buttons)
    -------------------------------------------------------------------------- */
-/* Footer row: like control | brand */
+/* Footer row: like control at the left edge */
 .footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex: none;
   width: 100%;
   min-height: 56px;
@@ -1181,17 +1181,6 @@ a.link:hover {
 /* Counter uses tabular figures */
 .like-count {
   font-variant-numeric: tabular-nums;
-}
-
-/* "V7" brand text */
-.footer__brand {
-  margin: 0;
-  color: var(--copy);
-  font-family: var(--font);
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1.5em;
-  letter-spacing: 0.0094em;
 }
 
 /* --------------------------------------------------------------------------
