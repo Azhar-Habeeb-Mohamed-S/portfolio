@@ -726,7 +726,8 @@ a.link:hover {
 
 /* Animated line: scaled from 0 to its full width when revealed.
    (scaleX is used instead of an animated `width` so the line grows without
-   triggering layout on every frame.) */
+   triggering layout on every frame. 0.7s reads as a quick, natural draw - a
+   longer duration looked like a slow wipe rather than a line being drawn.) */
 .rule__line {
   flex: none;
   width: 100%;
@@ -735,7 +736,7 @@ a.link:hover {
   background: var(--rule);
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Revealed state, toggled by script.js */

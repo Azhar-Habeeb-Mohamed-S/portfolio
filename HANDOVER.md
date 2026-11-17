@@ -296,10 +296,11 @@ observer code restored.
 ### Change the rule animation
 
 `styles.css` section 10: `.rule__line` holds `transform: scaleX(0)`,
-`transform-origin: left center`, `transition: transform 1.2s
+`transform-origin: left center`, `transition: transform 0.7s
 cubic-bezier(0.22, 1, 0.36, 1)` and the `.rule.is-visible .rule__line {
 transform: scaleX(1) }` end state. Change duration or easing there; the trigger
-logic (80 % of the viewport) is in `script.js` section 2.
+logic (80 % of the viewport) is in `script.js` section 2. Both rules - above
+`He/him` and above the clock - use the same class and the same timing.
 
 ### Make the like button real
 
