@@ -361,9 +361,10 @@
             <div class="info__right">
               <div class="info__inner">
                 <div class="info__main">
-                  <div class="info__avatar">
-                    <img src="images/sgzEtgVt2DG59HpXwozlRYcK3wY.png" alt="Azhar" loading="lazy" />
-                  </div>
+                  <!-- Empty 85 x 95 portrait slot - the client will drop their
+                       own photo in here. The frame is kept so the layout does
+                       not move when the new image is added. -->
+                  <div class="info__avatar"></div>
                   <div class="rt rt--fill">
                     <p class="copy">
                       I am currently working independently &amp; exploring various areas that have a direct impact on design.<br /><br />
@@ -540,6 +541,9 @@
             <div class="rt rt--fill">
               <p class="label">GMT+8</p>
             </div>
+            <!-- Exactly two placeholders, kept on the left side of the page
+                 (client change: was three, and they used to sit under the clock) -->
+            <div class="rt rt--note"><p class="copy">xxx<br />xxx</p></div>
           </div>
 
           <div class="timezone__right">
@@ -572,8 +576,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- Exactly two placeholders (client change: was three) -->
-                <div class="rt rt--note"><p class="copy">xxx<br />xxx</p></div>
               </div>
             </div>
           </div>

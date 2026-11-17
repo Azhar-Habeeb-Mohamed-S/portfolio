@@ -10,11 +10,11 @@ Live: **<https://mithun-srinivasan.github.io/hong-kong-client-project/>**
 | File | Purpose |
 | --- | --- |
 | `index.html` | Semantic markup; every section is commented. |
-| `styles.css` | Hand-written CSS in 15 numbered sections, matching the original Framer values and breakpoints. |
+| `styles.css` | Hand-written CSS in 16 numbered sections, matching the original Framer values and breakpoints. |
 | `fonts.css` | 42 local `Inter` `@font-face` subsets (no external font requests). |
 | `script.js` | Live clock, scroll-triggered hairline rules, footer like button. |
 | `fonts/` | 42 `.woff2` subsets. |
-| `images/` | Avatar, favicons and the grey poster used for project media. |
+| `images/` | Favicons and the grey poster used for project media. |
 
 ## Run locally
 
@@ -31,9 +31,9 @@ python -m http.server 8123 --bind 0.0.0.0
   own timezone (`GMT+8` is only a label). The digital block sits directly under
   the analogue clock.
 * **Hairline rules** — the separators above `He/him` and above the clock draw
-  themselves in from 0 → 100% width when scrolled into view. The reveal is
-  scroll-based so it also works after instant jumps or a restored scroll
-  position.
+  themselves in from left to right (`scaleX(0) → scaleX(1)`) when they reach
+  80% of the viewport height. The reveal is scroll-based so it also works after
+  instant jumps or a restored scroll position.
 * **Footer like button** — a single heart + counter at the bottom left
   (`V7` brand at the right), persisted per browser in `localStorage`.
 * **Media** — all videos/GIFs were removed at the client's request; project
@@ -56,4 +56,7 @@ matches the Framer source.
 * The "Made in Framer" badge was removed on request; no Framer branding remains.
 * The ElevenLabs "Talk to an agent" widget is part of the original page and is
   kept.
-* `xxx` blocks are the original's own placeholders (kept as content).
+* `xxx` blocks are the original's own placeholders (kept as content). The
+  footer note holds exactly two, on the left under `GMT+8`.
+* The portrait slot above the bio is intentionally empty — the client will add
+  their own photo there.

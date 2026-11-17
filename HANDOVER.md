@@ -38,7 +38,7 @@ python -m http.server 8123 --bind 0.0.0.0
 | `script.js` | ~5.4 KB / 155 lines | Three behaviours only: live clock, rule reveal animation, footer like button. |
 | `fonts.css` | ~10 KB | 42 `Inter` `@font-face` subsets, each pointing at a local `.woff2`. |
 | `fonts/` | 42 files | The Inter subsets themselves (variable weights/styles used by the design). |
-| `images/` | 4 PNGs | Grey poster (`SJCvb3fap5nW9LnMleHN23RfwrA.png`), avatar (`sgzEtgVt2DG59HpXwozlRYcK3wY.png`), two favicons. |
+| `images/` | 3 PNGs | Grey poster (`SJCvb3fap5nW9LnMleHN23RfwrA.png`) and two favicons. The portrait slot is intentionally empty. |
 | `README.md` | — | Short project overview. |
 | `HANDOVER.md` | — | This document. |
 | `.gitattributes` | — | Forces LF line endings and marks media as binary. |
@@ -174,8 +174,9 @@ empty image layer), a paragraph, and a short meta list. Cover ratio
 1. `.info__rule` → `.rule` → `.rule__line`: the hairline that draws itself in.
 2. `.info__row`, two columns:
    - `.info__label` — `He/him`.
-   - `.info__right` — avatar + biography + Socials links, then the long
-     reference lists (Experiences, Recognitions, Credentials, Skills,
+   - `.info__right` — an empty 85 x 95 portrait slot (`.info__avatar`, kept
+     ready for the client's own photo), the biography + Socials links, then
+     the long reference lists (Experiences, Recognitions, Credentials, Skills,
      Explorations, Communities, Podcasts).
 
 The section has `scroll-margin-top: 56px` so anchor jumps clear the top edge.
@@ -192,15 +193,21 @@ clock. Both rules animate the same way.
 
 ### 4.7 Timezone & clock — `section.timezone`
 
-Two columns: `GMT+8` label on the left, `.timezone__right` on the right.
+Two columns: `.timezone__label` on the left, `.timezone__right` on the right.
 
-Inside `.timezone__inner` (a **column** flex container):
+The left label column holds:
+
+1. `GMT+8`.
+2. The note with exactly **two** `xxx` placeholders (`.timezone__label
+   .rt--note`, 24 px below the label), i.e. on the left side of the page.
+
+Inside `.timezone__right` → `.timezone__inner` (a **column** flex container):
 
 1. `.timezone__clock-col` → `.clock` — 120 px analogue face with three hands
    (`.clock__hand--hour`, `--minute`, `--second`) and an accent centre pin.
    Hands are rotated by CSS custom property `--angle`, written by `script.js`.
-2. `.timezone__datetime` → digital `#clock-time` (`7:30 PM`), `#clock-date`
-   (`Nov 17, 2026`), then the note with **two** `xxx` placeholders.
+2. `.timezone__datetime` → digital `#clock-time` (`7:30 PM`) and `#clock-date`
+   (`Nov 17, 2026`), stacked directly beneath the analogue clock.
 
 Stack spacing comes from the `.timezone__inner` gap: **24 px** desktop /
 **20 px** tablet / **16 px** mobile.
@@ -233,10 +240,12 @@ Each `.rule__line` starts at `transform: scaleX(0)` and transitions to
 `scaleX(1)` (origin left) when its `.rule` parent gets `.is-visible`. Using a
 transform instead of an animated `width` keeps the growth off the layout path.
 
-`script.js` checks each rule’s `getBoundingClientRect().top` against the
-viewport height on scroll and resize. This intentionally replaces an
-`IntersectionObserver`: a rule that is already above the viewport (restored
-scroll position, anchor jump) would never intersect and would stay invisible.
+`script.js` checks each rule’s `getBoundingClientRect().top` against **80 % of
+the viewport height** on scroll and resize, so the line starts drawing while it
+is clearly on screen instead of at the very bottom edge. This intentionally
+replaces an `IntersectionObserver`: a rule that is already above the viewport
+(restored scroll position, anchor jump) would never intersect and would stay
+invisible.
 
 Scroll events are batched with `requestAnimationFrame` (one layout read per
 frame).
@@ -286,10 +295,11 @@ observer code restored.
 
 ### Change the rule animation
 
-`styles.css` section 10: `.rule__line` holds the `width: 0`, the
-`transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1)` and the
-`.rule.is-visible .rule__line { width: 100% }` end state. Change duration or
-easing there; the trigger logic is in `script.js` section 2.
+`styles.css` section 10: `.rule__line` holds `transform: scaleX(0)`,
+`transform-origin: left center`, `transition: transform 1.2s
+cubic-bezier(0.22, 1, 0.36, 1)` and the `.rule.is-visible .rule__line {
+transform: scaleX(1) }` end state. Change duration or easing there; the trigger
+logic (80 % of the viewport) is in `script.js` section 2.
 
 ### Make the like button real
 
@@ -329,16 +339,18 @@ These are client-approved changes; do not “fix” them back without asking.
    media slot now shows the original grey poster image.
 3. **Digital time/date moved** — it sits directly **below** the analogue clock
    (24/20/16 px gap) instead of the original right-hand position.
-4. **One footer like** — the original’s per-project like buttons are gone; there
-   is a single heart + count at the bottom left of the footer.
-5. **Two placeholders** — the note under the clock has two `xxx` lines (the
-   original had three).
+4. **One like button only** — a single heart + count in the bottom-left footer.
+   The three per-project like buttons added in the first client round are gone.
+5. **Two placeholders on the left** — the note holds two `xxx` lines (the
+   original had three) and now sits under `GMT+8` instead of under the clock.
+6. **Empty portrait slot** — the old avatar image was removed; `.info__avatar`
+   keeps an empty 85 x 95 frame for the client’s own photo.
 
 Also kept on purpose: the **ElevenLabs “Talk to an agent”** widget — it is the
 site owner’s own agent, not third-party advertising.
 
 Because of items 3–5 the total document height is taller than the original’s
-(~9055 px vs ~8934 px at 1440/1425 px wide). That is expected.
+(~8990 px vs ~8934 px at 1440/1425 px wide). That is expected.
 
 ---
 

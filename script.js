@@ -78,9 +78,10 @@
   /* ------------------------------------------------------------------
      2. Hairline rules
      Each .rule__line starts scaled to 0 and grows to its full width
-     (see styles.css). A rule is revealed as soon as it has been reached,
-     which also covers instant jumps (anchor links, restored scroll
-     position) where an IntersectionObserver can miss the element entirely.
+     (see styles.css). A rule is revealed once it is 20% up from the bottom
+     of the viewport, so the draw-in is actually visible on screen; the
+     checks also cover instant jumps (anchor links, restored scroll position)
+     where an IntersectionObserver can miss the element entirely.
      ------------------------------------------------------------------ */
   const rules = Array.from(document.querySelectorAll(".rule"));
 
@@ -93,7 +94,7 @@
 
       for (const rule of rules) {
         if (rule.classList.contains("is-visible")) continue;
-        if (rule.getBoundingClientRect().top < viewportHeight) {
+        if (rule.getBoundingClientRect().top < viewportHeight * 0.8) {
           rule.classList.add("is-visible");
         }
       }

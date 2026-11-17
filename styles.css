@@ -205,7 +205,7 @@ a.link:hover {
   --paragraph-spacing: 0px;
 }
 
-/* The small three-line note under the clock keeps its line breaks */
+/* The small two-line placeholder note keeps its line breaks */
 .rt--note {
   flex: none;
   width: auto;
@@ -917,6 +917,13 @@ a.link:hover {
   position: relative;
   overflow: visible;
   background: var(--bg);
+}
+
+/* The two placeholder rows sit under the GMT+8 label, on the left side of the
+   page (client change). Width is auto so they never stretch the label column. */
+.timezone__label .rt--note {
+  width: auto;
+  margin-top: 24px;
 }
 
 /* Right column of the timezone (60%) */
