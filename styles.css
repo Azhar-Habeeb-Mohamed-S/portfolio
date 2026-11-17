@@ -1190,9 +1190,10 @@ a.link:hover {
   fill: currentColor;
 }
 
-/* Counter uses tabular figures */
+/* Counter uses exactly the same font settings as the body copy preset
+   (including the OpenType features) - no tabular figures, no overrides. */
 .like-count {
-  font-variant-numeric: tabular-nums;
+  font-feature-settings: "blwf" on, "cv09" on, "cv03" on, "cv04" on, "cv11" on;
 }
 
 /* --------------------------------------------------------------------------

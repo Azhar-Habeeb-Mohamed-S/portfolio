@@ -226,6 +226,8 @@ width. A global `button` reset (`appearance: none`,
 no border/background/padding) plus critical inline styles on the button keep the
 native grey "box" from appearing in any browser, even with a cached stylesheet.
 Keyboard focus underlines the count instead of drawing an outline box.
+The number uses the same font, size, weight and OpenType features as the body
+copy preset.
 
 ---
 
