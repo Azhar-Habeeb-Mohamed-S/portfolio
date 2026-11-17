@@ -64,7 +64,7 @@ The whole page is **flexbox**, mirroring the original Framer export.
     <section class="testimonials">
     <div class="info__rule">  <!-- rule above the clock -->
     <section class="timezone"> <!-- clock + digital time/date -->
-    <footer class="footer">   <!-- single like button, bottom left -->
+    <footer class="footer">   <!-- single like button, bottom right -->
   </div>
 </div>
 ```
@@ -212,7 +212,7 @@ column again, so the note follows the time/date.
 
 ### 4.8 Footer — `footer.footer`
 
-56 px tall. A single like button (heart + count) on the left and nothing else.
+56 px tall. A single like button (heart + count) on the right and nothing else.
 There are **no** per-project like buttons.
 
 ---
@@ -295,8 +295,9 @@ observer code restored.
 ### Change the rule animation
 
 `styles.css` section 10: `.rule__line` holds `transform: scaleX(0)`,
-`transform-origin: left center`, `transition: transform 0.5s
-cubic-bezier(0.22, 1, 0.36, 1)` (quick ease-out, matching the original) and the
+`transform-origin: left center`, `transition: transform 2s
+cubic-bezier(0.65, 0, 0.35, 1)` (slow, symmetric ease-in-out, matching the
+original's deliberate draw) and the
 `.rule.is-visible .rule__line { transform: scaleX(1) }` end state. Change
 duration or easing there; the trigger logic (80 % of the viewport, toggled so
 the draw replays on every scroll) is in `script.js` section 2. Both rules -
@@ -340,7 +341,7 @@ These are client-approved changes; do not “fix” them back without asking.
    media slot now shows the original grey poster image.
 3. **Digital time/date moved** — it sits directly **below** the analogue clock
    (24/20/16 px gap) instead of the original right-hand position.
-4. **One like button only** — a single heart + count in the bottom-left footer.
+4. **One like button only** - a single heart + count in the bottom-right footer.
    The three per-project like buttons added in the first client round are gone.
 5. **Two placeholders on the right** — the note holds two `xxx` lines (the
    original had three) and sits in the last quarter of the timezone row, at the

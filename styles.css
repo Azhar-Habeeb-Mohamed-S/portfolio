@@ -726,8 +726,9 @@ a.link:hover {
 
 /* Animated line: scaled from 0 to its full width when revealed.
    (scaleX is used instead of an animated `width` so the line grows without
-   triggering layout on every frame. 0.5s with an ease-out curve matches the
-   quick draw of the original Framer page.) */
+   triggering layout on every frame. 2s with a symmetric ease-in-out gives the
+   slow, deliberate draw of the original page - the line is still travelling
+   well over a second after it comes into view.) */
 .rule__line {
   flex: none;
   width: 100%;
@@ -736,7 +737,7 @@ a.link:hover {
   background: var(--rule);
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 2s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 /* Revealed state, toggled by script.js */
@@ -1118,14 +1119,14 @@ a.link:hover {
 }
 
 /* --------------------------------------------------------------------------
-   14. Footer - a single like control at the bottom left
+   14. Footer - a single like control at the bottom right
    (replaces the three per-project like buttons)
    -------------------------------------------------------------------------- */
-/* Footer row: like control at the left edge */
+/* Footer row: the like control sits against the right edge of the page */
 .footer {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-end;
   flex: none;
   width: 100%;
   min-height: 56px;
@@ -1134,8 +1135,7 @@ a.link:hover {
 }
 
 /* Heart + counter. Plain text button, no pill or border, like the original.
-   The glyph is pulled flush to the page padding so the heart starts at the
-   same 24px inset as the labels above it. */
+   Right-aligned by the footer, so the count ends exactly on the 24px inset. */
 .footer__like {
   display: inline-flex;
   align-items: center;
@@ -1151,7 +1151,6 @@ a.link:hover {
   line-height: 1.5em;
   letter-spacing: 0.0094em;
   cursor: pointer;
-  transform: translateX(-1.6px);
 }
 
 /* Keyboard focus ring - black, never the accent colour */
