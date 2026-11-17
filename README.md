@@ -3,7 +3,7 @@
 A pixel-accurate recreation of <https://powerful-herring-025226.framer.app/>
 built as plain HTML, CSS and JavaScript. No framework, no build step.
 
-Live: **<https://mithun-srinivasan.github.io/hong-kong-client-project/>**
+Live: **<https://azhar-habeeb-mohamed-s.github.io/portfolio/>**
 
 ## Stack
 

@@ -3,8 +3,8 @@
 A one-page personal portfolio, rebuilt as a **1:1 static copy** of
 <https://powerful-herring-025226.framer.app/>.
 
-- **Live site** — <https://mithun-srinivasan.github.io/hong-kong-client-project/>
-- **Repository** — <https://github.com/mithun-srinivasan/hong-kong-client-project>
+- **Live site** — <https://azhar-habeeb-mohamed-s.github.io/portfolio/>
+- **Repository** — <https://github.com/Azhar-Habeeb-Mohamed-S/portfolio>
 
 ---
 
@@ -407,7 +407,7 @@ The repository is already wired to GitHub Pages:
 Check the build:
 
 ```powershell
-gh api repos/mithun-srinivasan/hong-kong-client-project/pages/builds/latest --jq '{status, commit}'
+gh api repos/Azhar-Habeeb-Mohamed-S/portfolio/pages/builds/latest --jq '{status, commit}'
 ```
 
 If Pages is ever reconfigured: **Settings → Pages → Build and deployment →
