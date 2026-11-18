@@ -9,3 +9,10 @@ npm-debug.log*
 # Local tooling / editors
 .vscode/
 .idea/
+node_modules/
+
+# Supabase credentials are injected at deploy time, never committed.
+.env
+.env.*
+!.env.example
+supabase-config.generated.js

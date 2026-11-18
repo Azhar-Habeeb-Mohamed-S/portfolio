@@ -8,19 +8,19 @@ A one-page personal portfolio, rebuilt as a **1:1 static copy** of
 
 ---
 
-## 1. Stack — no framework, no build step
+## 1. Stack — no framework; dev tooling only
 
-| Question | Answer |
-| --- | --- |
-| Framework? | **None.** No React, Vue, Svelte, Next, Astro, Tailwind, jQuery, etc. |
-| Build tool? | **None.** No npm, no bundler, no compile step, no `node_modules`. |
-| What is it? | Three hand-written files — `index.html`, `styles.css`, `script.js` — plus font and image assets. |
-| Dependencies | One optional external script: the ElevenLabs conversational-agent embed (`unpkg.com/@elevenlabs/convai-widget-embed`). The page works without it; only the “Talk to an agent” pill disappears. |
-| Hosting | GitHub Pages, serving the repository root of `main`. Nothing to build. |
-| How to publish | `git push origin main` — Pages rebuilds automatically. |
+| Question       | Answer                                                                                                                                                                                         |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Framework?     | **None.** No React, Vue, Svelte, Next, Astro, Tailwind, jQuery, etc.                                                                                                                           |
+| Build tool?    | **None for the site.** npm is used only for local lint/format/test tooling (ESLint, Stylelint, html-validate, Prettier). No bundler, no compile step; none of it ships to the browser.         |
+| What is it?    | Three hand-written files — `index.html`, `styles.css`, `script.js` — plus font and image assets.                                                                                               |
+| Dependencies   | One optional external script: the ElevenLabs conversational-agent embed (`unpkg.com/@elevenlabs/convai-widget-embed`). The page works without it; only the “Talk to an agent” pill disappears. |
+| Hosting        | GitHub Pages, deployed by `.github/workflows/deploy.yml` from `main`.                                                                                                                          |
+| How to publish | `git push origin main` — CI runs, then Actions deploys to Pages.                                                                                                                               |
 
 You can open `index.html` directly from disk, or serve the folder with any static
-file server. There is no server-side code and no database.
+file server. There is no server-side code and no production database in this repo.
 
 ```
 python -m http.server 8123 --bind 0.0.0.0
@@ -31,22 +31,26 @@ python -m http.server 8123 --bind 0.0.0.0
 
 ## 2. File map
 
-| Path | Size | Role |
-| --- | --- | --- |
-| `index.html` | ~29 KB / 570 lines | All page content. One `<section>` per page section, every block commented. |
-| `styles.css` | ~29 KB / 1478 lines | 16 numbered, commented sections: tokens, reset, typography, layout, components, footer, tablet, mobile. |
-| `script.js` | ~7 KB | Three behaviours only: live clock, rule reveal animation, footer like button (localStorage or Supabase). |
-| `supabase-config.js` | — | Two values (`url`, `anonKey`) for the shared like counter; both empty by default. |
-| `SUPABASE.md` | — | First-time setup guide and the SQL for the shared like counter. |
-| `fonts.css` | ~10 KB | 42 `Inter` `@font-face` subsets, each pointing at a local `.woff2`. |
-| `fonts/` | 42 files | The Inter subsets themselves (variable weights/styles used by the design). |
-| `images/` | 3 PNGs | Grey poster (`SJCvb3fap5nW9LnMleHN23RfwrA.png`) and two favicons. The portrait slot is intentionally empty. |
-| `README.md` | — | Short project overview. |
-| `HANDOVER.md` | — | This document. |
-| `.gitattributes` | — | Forces LF line endings and marks media as binary. |
-| `.gitignore` | — | Editor/OS noise only. |
+| Path                           | Size                | Role                                                                                                       |
+| ------------------------------ | ------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `index.html`                   | ~29 KB              | All page content. One `<section>` per page section, every block commented.                                 |
+| `styles.css`                   | ~35 KB / 1740 lines | All styling: 16 numbered base sections (fully inlined, no remote import), local overrides, reduced motion. |
+| `script.js`                    | ~8 KB               | Three behaviours: live clock, rule reveal animation, footer like button (localStorage or Supabase).        |
+| `supabase-config.js`           | —                   | Generated from env vars / repo secrets; tracked with empty values, gitignored when generated locally.      |
+| `SUPABASE.md`                  | —                   | First-time setup, SQL, security notes and the read-only RLS/RPC audit query.                               |
+| `fonts.css` / `fonts/`         | 42 files            | Local Inter subsets.                                                                                       |
+| `images/`                      | 3 PNGs              | Grey poster and two favicons. The portrait slot is intentionally empty.                                    |
+| `README.md`                    | —                   | Project overview, scripts, env setup and deployment.                                                       |
+| `HANDOVER.md`                  | —                   | This document.                                                                                             |
+| `tests/script.test.js`         | —                   | Dependency-free unit tests (`node --test`).                                                                |
+| `scripts/verify.py`            | —                   | Structural sanity checks (HTML/CSS/assets).                                                                |
+| `scripts/generate-config.js`   | —                   | Writes `supabase-config.js` from `.env` / environment.                                                     |
+| `.github/workflows/ci.yml`     | —                   | Lint, format, tests and structure checks.                                                                  |
+| `.github/workflows/deploy.yml` | —                   | Generates config from secrets and deploys to Pages.                                                        |
+| `.gitattributes`               | —                   | Forces LF line endings and marks media as binary.                                                          |
+| `.gitignore`                   | —                   | Editor/OS noise, `node_modules/`, `.env`, generated config.                                                |
 
-There are no generated files. Everything in the repository is source.
+`supabase-config.js` is the only generated file; it is not real source.
 
 ---
 
@@ -65,7 +69,7 @@ The whole page is **flexbox**, mirroring the original Framer export.
     <section class="info">    <!-- rule + bio + lists -->
     <section class="testimonials">
     <div class="info__rule">  <!-- rule above the clock -->
-    <section class="timezone"> <!-- clock, digital time/date, xxx note + like button -->
+    <section class="timezone"> <!-- clock, digital time/date, note + like button -->
   </div>
 </div>
 ```
@@ -77,9 +81,18 @@ widths, the original distributes space with **fractional `flex-grow` values**,
 for example:
 
 ```css
-.rt--bio  { flex: .35 0 0; width: 1px; }
-.rt--year { flex: .25 0 0; width: 1px; }
-.rt--meta { flex: .25 0 0; width: 1px; }
+.rt--bio {
+  flex: 0.35 0 0;
+  width: 1px;
+}
+.rt--year {
+  flex: 0.25 0 0;
+  width: 1px;
+}
+.rt--meta {
+  flex: 0.25 0 0;
+  width: 1px;
+}
 ```
 
 `width: 1px` is deliberate — it collapses the flex-basis to 1 px so the grow
@@ -95,11 +108,11 @@ column, the footer brand).
 
 Identical to the original Framer project:
 
-| Range | Name | Where |
-| --- | --- | --- |
-| ≥ 1200 px | desktop | base rules (no media query) |
-| 600 – 1199.98 px | tablet | `styles.css` section 15 |
-| ≤ 599.98 px | mobile | `styles.css` section 16 |
+| Range            | Name    | Where                       |
+| ---------------- | ------- | --------------------------- |
+| ≥ 1200 px        | desktop | base rules (no media query) |
+| 600 – 1199.98 px | tablet  | `styles.css` section 15     |
+| ≤ 599.98 px      | mobile  | `styles.css` section 16     |
 
 Some content only exists on mobile in the original (section headings for side
 projects and misc, the grey `©2027`) and is hidden/shown inside those media
@@ -132,7 +145,7 @@ A vertical stack (96 px gap) of three groups.
 
 **Projects** (`section.projects`, 48 px gap) — three `article.project` cards:
 
-1. 2026 — placeholder card (`xxx` / `xxx`).
+1. 2026 — work-in-progress card ("New work is in progress…" / "In progress · Independent").
 2. 2024 — Rubay Wines, with three paragraphs and a meta list
    (`1 Founder` / `Extension` / `Design`).
 3. 2023 — Cathay / Expedia / Uxcel, four paragraphs and
@@ -144,13 +157,13 @@ Card anatomy:
 <article class="project">
   <div class="project__inner">
     <div class="project__content">
-      <div class="project__media"> …poster image… </div>
+      <div class="project__media">…poster image…</div>
       <header class="project__meta">
         <div class="project__year">2026</div>
         <div class="project__info">
           <div class="project__info-row">
-            <div class="rt rt--body"> …copy + links… </div>
-            <div class="rt rt--meta"> …meta list… </div>
+            <div class="rt rt--body">…copy + links…</div>
+            <div class="rt rt--meta">…meta list…</div>
           </div>
         </div>
       </header>
@@ -201,33 +214,34 @@ Two columns: `.timezone__label` on the left (only `GMT+8`) and
    - `.timezone__clock-col` → `.clock` — 120 px analogue face with three hands
      (`.clock__hand--hour`, `--minute`, `--second`) and an accent centre pin.
      The face keeps the 120 px size but shrinks (`max-width: 100%;
-     aspect-ratio: 1 / 1`) on very narrow phones.
+aspect-ratio: 1 / 1`) on very narrow phones.
      Hands are rotated by CSS custom property `--angle`, written by `script.js`.
    - `.timezone__datetime` → digital `#clock-time` (`7:30 PM`) and `#clock-date`
      (`Nov 17, 2026`), stacked directly beneath the analogue clock.
-2. `.timezone__right > .rt--note` holds exactly **two** `xxx`
-   placeholders. Its width is **25 %** on desktop (x = 1194 px at 1425 px wide)
-   and **35 %** on tablet, where it matches the testimonial attribution column
-   so the note starts at the same x-position as `Fion Leung / Time Auction`
-   above the rule. On mobile it stacks at the left edge.
+2. `.timezone__right > .rt--note` holds two short lines of real copy
+   ("Available for select projects" / "Based in Hong Kong · GMT+8"), replacing
+   the original's `xxx` placeholders. Its width is **25 %** on desktop
+   (x = 1194 px at 1425 px wide) and **35 %** on tablet, where it matches the
+   testimonial attribution column so the note starts at the same x-position as
+   `Fion Leung / Time Auction` above the rule. On mobile it stacks at the left
+   edge.
 
 Stack spacing comes from the `.timezone__inner` gap: **24 px** desktop /
 **20 px** tablet / **16 px** mobile. On mobile `.timezone__right` becomes a
 column again with an **8 px** gap, so the note follows the time/date closely.
 The note's markup has no stray indentation text nodes (the container uses
-`white-space: pre`), which otherwise added ~45 px above the `xxx` lines.
+`white-space: pre`).
 
 ### 4.8 Like button — `.like-button`
 
 The single like button (heart + count) is the last child of the `.rt--note`
-column, directly under the two `xxx` placeholders with a 24 px top margin.
-It inherits the note's left edge at every width, so it lines up exactly under
-the placeholders on desktop, tablet and mobile. There are **no** per-project
-like buttons and no separate footer element. The heart SVG has a **2.5** stroke
-width. A global `button` reset (`appearance: none`,
-no border/background/padding) plus critical inline styles on the button keep the
-native grey "box" from appearing in any browser, even with a cached stylesheet.
-Keyboard focus underlines the count instead of drawing an outline box.
+column, directly under the note copy with a 24 px top margin. It inherits the
+note's left edge at every width, so it lines up on desktop, tablet and mobile.
+There are **no** per-project like buttons and no separate footer element. The
+heart SVG has a **2.5** stroke width. A global `button` reset plus the
+`.like-button` rules in the local override block of `styles.css` keep the native
+grey "box" from appearing; there are no inline `style=` attributes left in the
+HTML. Keyboard focus underlines the count instead of drawing an outline box.
 The number uses the same font, size, weight and OpenType features as the body
 copy preset.
 
@@ -243,10 +257,15 @@ the HTML.
 - Two `Intl.DateTimeFormat` instances for the visible text: `7:30 PM` and
   `Nov 17, 2026`. No `timeZone` option is passed, so each visitor sees **their
   own local time** (the `GMT+8` label is only a label, as in the original).
-- A third formatter (`hour12: false`) provides numeric hour/minute/second for
-  the hands.
-- `updateHands()` converts time to degrees and sets `--angle` on each hand.
+  Formatter construction is guarded; plain `Date` fallbacks keep the clock
+  working even where `Intl` is missing or throws.
+- The analogue hands read the hour/minute/second directly from the same `Date`;
+  `updateHands()` converts them to degrees and sets `--angle` on each hand.
+  (The old `formatToParts` round-trip was removed because a missing part could
+  throw.)
 - `updateClock()` runs once immediately and then every 1000 ms.
+- The digital block is `role="timer" aria-live="off"`: assistive tech can read it
+  on demand, but the time is not announced every second.
 
 ### 5.2 Hairline rules (section 2)
 
@@ -283,7 +302,11 @@ frame).
   falls back to the local count for the session; clicks are ignored while a
   request is in flight.
 - All storage access is wrapped in `try/catch` so private mode or corrupt data
-  cannot break the button. Setup: see `SUPABASE.md`.
+  cannot break the button. On a failed RPC the exact pre-click count is restored
+  (an arithmetic undo is wrong when the optimistic increment was clamped at 0).
+- Timers and listeners are registered, then suspended on `pagehide` and
+  re-registered on `pageshow`, so browser back/forward-cache restoration keeps
+  a live clock. Setup: see `SUPABASE.md`.
 
 ---
 
@@ -293,8 +316,8 @@ frame).
 
 Edit `index.html` only. Keep the surrounding classes — they drive the layout.
 `&amp;` is used for `&`, `&nbsp;` keeps words together where the original did.
-The `xxx` strings are **placeholders that exist in the original site**; they are
-not unfinished work.
+The original site's `xxx` placeholders were replaced with real copy; the grey
+cover image is the remaining deliberate placeholder from the original design.
 
 ### Add a project
 
@@ -331,9 +354,11 @@ above `He/him` and above the clock - use the same class and the same timing.
 
 ### Turn on shared likes
 
-Follow `SUPABASE.md`: create the free project, run the SQL once, then paste the
-Project URL and anon key into `supabase-config.js`. The markup, CSS and
-localStorage fallback stay the same.
+Follow `SUPABASE.md`: create the free project, run the SQL once, then put the
+Project URL and publishable key in `.env` (locally) or repository secrets (for
+deploys). `supabase-config.js` is generated by `npm run config` / the deploy
+workflow — do not edit it by hand. The markup, CSS and localStorage fallback
+stay the same.
 
 ### Adjust breakpoints
 
@@ -344,14 +369,14 @@ page has no JS breakpoints, so editing the queries is enough.
 
 `styles.css` section 1:
 
-| Token | Value | Used for |
-| --- | --- | --- |
-| `--bg` | `#ffffff` | page background |
-| `--label` | `#888888` | muted labels, clock face |
-| `--copy` | `#3d3d3d` | body text |
-| `--accent` | `#ea644b` | clock centre pin |
-| `--rule` | `#d1d1d1` | hairline rules |
-| `--font` | Inter stack | everything |
+| Token      | Value       | Used for                 |
+| ---------- | ----------- | ------------------------ |
+| `--bg`     | `#ffffff`   | page background          |
+| `--label`  | `#888888`   | muted labels, clock face |
+| `--copy`   | `#3d3d3d`   | body text                |
+| `--accent` | `#ea644b`   | clock centre pin         |
+| `--rule`   | `#d1d1d1`   | hairline rules           |
+| `--font`   | Inter stack | everything               |
 
 `html { font-size: 93.75% }` makes `1rem = 15px`, matching the original.
 
@@ -367,12 +392,13 @@ These are client-approved changes; do not “fix” them back without asking.
    media slot now shows the original grey poster image.
 3. **Digital time/date moved** — it sits directly **below** the analogue clock
    (24/20/16 px gap) instead of the original right-hand position.
-4. **One like button only** - a single heart + count directly below the
-   `xxx xxx` note, left edges aligned. The three per-project like buttons
-   added in the first client round are gone.
-5. **Two placeholders on the right** — the note holds two `xxx` lines (the
-   original had three) and sits in the last quarter of the timezone row, at the
-   same x-position as the original's note.
+4. **One like button only** — a single heart + count directly below the note
+   copy, left edges aligned. The three per-project like buttons added in the
+   first client round are gone.
+5. **Real note copy** — the original's three `xxx` lines were replaced with two
+   lines of real text, in the last quarter of the timezone row at the same
+   x-position as the original's note. The other `xxx` copy placeholders were
+   likewise replaced with real project text.
 6. **Empty portrait slot** — the old avatar image was removed; `.info__avatar`
    keeps an empty 85 x 95 frame for the client’s own photo.
 
@@ -400,20 +426,19 @@ either way.
 
 ### Deploy
 
-The repository is already wired to GitHub Pages:
+Deployment is handled by `.github/workflows/deploy.yml`. One-time setup:
+**Settings → Pages → Build and deployment → Source: GitHub Actions.**
 
-1. Commit changes on `main`.
-2. `git push origin main`.
-3. Pages rebuilds automatically (typically < 1 minute).
-
+After that, each push to `main` runs CI and then deploys generated static files.
 Check the build:
 
 ```powershell
 gh api repos/Azhar-Habeeb-Mohamed-S/portfolio/pages/builds/latest --jq '{status, commit}'
 ```
 
-If Pages is ever reconfigured: **Settings → Pages → Build and deployment →
-Source: Deploy from a branch → Branch: `main` / root.**
+The deploy workflow reads `SUPABASE_URL` and `SUPABASE_ANON_KEY` from repository
+secrets; without them `supabase-config.js` is generated empty and likes stay
+local.
 
 **Cache gotcha:** GitHub Pages and browsers cache HTML/CSS for several minutes.
 When verifying a deploy, hard-reload (`Ctrl+F5`) or disable cache in DevTools,
@@ -423,19 +448,19 @@ otherwise you may review the previous build.
 
 ## 9. QA checklist before pushing
 
-1. `node --check script.js` — syntax.
-2. HTML sanity — one `<html>`, no unclosed tags. (A small Python
-   `html.parser` script is enough; check `like buttons`, `xxx` count, media
-   refs.)
-3. CSS braces balanced: count `{` and `}` (currently 174 / 174).
-4. Check the page at **1440×900**, **768×1024** and **390×844**:
+1. `npm run check` — ESLint, Stylelint, html-validate, Prettier and the unit
+   tests (plus `node --check script.js` and `python scripts/verify.py`).
+2. `python scripts/verify.py` — HTML structure, CSS braces, local asset refs,
+   no inline styles and no remote stylesheet imports.
+3. Check the page at **1440×900**, **768×1024** and **390×844**:
    - hero name, bio and `©2027` placement;
    - project media at the right aspect ratio;
-   - rule above `He/him` and rule above the clock both animate in;
+   - rule above `He/him` and rule above the clock both animate in (instant under
+     `prefers-reduced-motion`);
    - clock shows local time, hands move, date below the clock;
    - footer like toggles and persists after reload;
-   - no Framer badge, no dead video/GIF requests.
-5. Confirm the pushed files are identical to the tested ones
+   - no Framer badge, no dead video/GIF requests (favicon path correct).
+4. Confirm the pushed files are identical to the tested ones
    (`.gitattributes` keeps LF endings).
 
 ---

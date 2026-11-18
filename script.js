@@ -9,47 +9,108 @@
 (() => {
   "use strict";
 
+  /**
+   * Lifecycle registry. Every timer and listener is registered here so it can
+   * be suspended when the page is unloaded and resumed when the page is
+   * restored from the back/forward cache. Without the resume step the clock
+   * would freeze after a bfcache restore.
+   */
+  const registrations = [];
+
+  const register = (add, remove) => {
+    const entry = { add, remove, active: true };
+    add();
+    registrations.push(entry);
+  };
+
+  const suspend = () => {
+    for (const entry of registrations) {
+      if (entry.active) {
+        entry.remove();
+        entry.active = false;
+      }
+    }
+  };
+
+  const resume = () => {
+    for (const entry of registrations) {
+      if (!entry.active) {
+        entry.add();
+        entry.active = true;
+      }
+    }
+  };
+
   /* ------------------------------------------------------------------
      1. Live clock
      The original shows the visitor's own local time ("GMT+8" is only a
-     label), so no `timeZone` option is passed to Intl.
+     label), so no `timeZone` option is passed to Intl. Intl is treated as
+     optional: every browser in use supports it, but the fallback below uses
+     plain Date methods so a missing/broken implementation cannot blank the
+     clock.
      ------------------------------------------------------------------ */
   const timeElement = document.getElementById("clock-time");
   const dateElement = document.getElementById("clock-date");
   const clockElement = document.querySelector(".clock");
 
+  const makeFormatter = (options) => {
+    if (typeof Intl === "undefined" || typeof Intl.DateTimeFormat !== "function") {
+      return null;
+    }
+    try {
+      return new Intl.DateTimeFormat("en-US", options);
+    } catch {
+      return null;
+    }
+  };
+
   // "7:44 PM" - 12-hour clock with a leading-zero-free hour.
-  const timeFormatter = new Intl.DateTimeFormat("en-US", {
+  const timeFormatter = makeFormatter({
     hour: "numeric",
     minute: "2-digit",
     hour12: true,
   });
 
   // "Nov 17, 2026" - short month, day, full year.
-  const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  const dateFormatter = makeFormatter({
     month: "short",
     day: "numeric",
     year: "numeric",
   });
 
-  /** Hour/minute/second of "now" in the visitor's timezone. */
-  const partsFormatter = new Intl.DateTimeFormat("en-US", {
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-    hour12: false,
-  });
+  const MONTHS = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
 
-  const getLocalTime = () => {
-    const parts = partsFormatter.formatToParts(new Date());
-    const read = (type) => Number(parts.find((part) => part.type === type).value);
-    return { hour: read("hour"), minute: read("minute"), second: read("second") };
+  /** Fallback time string when Intl is unavailable ("7:44 PM"). */
+  const fallbackTime = (date) => {
+    const hour = date.getHours();
+    const minute = String(date.getMinutes()).padStart(2, "0");
+    return `${hour % 12 || 12}:${minute} ${hour < 12 ? "AM" : "PM"}`;
   };
 
+  /** Fallback date string when Intl is unavailable ("Nov 17, 2026"). */
+  const fallbackDate = (date) =>
+    `${MONTHS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+
   /** Rotates the hour, minute and second hands of the analogue clock. */
-  const updateHands = ({ hour, minute, second }) => {
+  const updateHands = (now) => {
     if (!clockElement) return;
 
+    const hour = now.getHours();
+    const minute = now.getMinutes();
+    const second = now.getSeconds();
     const angles = {
       "clock__hand--hour": ((hour % 12) + minute / 60) * 30,
       "clock__hand--minute": (minute + second / 60) * 6,
@@ -65,14 +126,27 @@
   /** Writes the digital time/date and rotates the analogue hands. */
   const updateClock = () => {
     const now = new Date();
-    if (timeElement) timeElement.textContent = timeFormatter.format(now);
-    if (dateElement) dateElement.textContent = dateFormatter.format(now);
-    updateHands(getLocalTime());
+    if (timeElement) {
+      timeElement.textContent = timeFormatter ? timeFormatter.format(now) : fallbackTime(now);
+    }
+    if (dateElement) {
+      dateElement.textContent = dateFormatter ? dateFormatter.format(now) : fallbackDate(now);
+    }
+    updateHands(now);
   };
 
   if (timeElement || dateElement || clockElement) {
-    updateClock();
-    setInterval(updateClock, 1000);
+    let timer = null;
+    register(
+      () => {
+        updateClock();
+        timer = setInterval(updateClock, 1000);
+      },
+      () => {
+        clearInterval(timer);
+        timer = null;
+      },
+    );
   }
 
   /* ------------------------------------------------------------------
@@ -108,8 +182,16 @@
     };
 
     revealRules();
-    window.addEventListener("scroll", scheduleReveal, { passive: true });
-    window.addEventListener("resize", scheduleReveal);
+    register(
+      () => {
+        window.addEventListener("scroll", scheduleReveal, { passive: true });
+        window.addEventListener("resize", scheduleReveal);
+      },
+      () => {
+        window.removeEventListener("scroll", scheduleReveal);
+        window.removeEventListener("resize", scheduleReveal);
+      },
+    );
   }
 
   /* ------------------------------------------------------------------
@@ -134,7 +216,12 @@
     let state = { liked: false, count: 0 };
 
     try {
-      state = { ...state, ...JSON.parse(localStorage.getItem(LIKE_KEY) || "{}") };
+      const stored = JSON.parse(localStorage.getItem(LIKE_KEY) || "{}") || {};
+      const storedCount = Number(stored.count);
+      state = {
+        liked: stored.liked === true,
+        count: Number.isFinite(storedCount) ? Math.max(0, storedCount) : 0,
+      };
     } catch {
       /* Corrupt or unavailable storage - keep the defaults. */
     }
@@ -201,28 +288,42 @@
 
     render();
 
-    likeButton.addEventListener("click", async () => {
+    const onLike = async () => {
       if (busy) return;
       busy = true;
 
-      const delta = state.liked ? -1 : 1;
-      state.liked = !state.liked;
-      state.count = Math.max(0, state.count + delta);
-      persist();
-      render();
-
-      if (online) {
-        try {
-          state.count = await adjustCount(delta); // Server count is authoritative.
-        } catch {
-          online = false;
-          state.count = Math.max(0, state.count - delta); // Undo the optimistic change.
-        }
+      try {
+        const delta = state.liked ? -1 : 1;
+        const previousCount = state.count;
+        state.liked = !state.liked;
+        state.count = Math.max(0, state.count + delta);
         persist();
         render();
-      }
 
-      busy = false;
-    });
+        if (online) {
+          try {
+            state.count = await adjustCount(delta); // Server count is authoritative.
+          } catch {
+            online = false;
+            // Restore the exact pre-click value. An arithmetic undo
+            // (`state.count - delta`) is wrong when the optimistic increment
+            // was clamped at zero.
+            state.count = previousCount;
+          }
+          persist();
+          render();
+        }
+      } finally {
+        busy = false;
+      }
+    };
+
+    register(
+      () => likeButton.addEventListener("click", onLike),
+      () => likeButton.removeEventListener("click", onLike),
+    );
   }
+
+  window.addEventListener("pagehide", suspend);
+  window.addEventListener("pageshow", resume);
 })();

@@ -1,0 +1,46 @@
+name: CI
+
+# Quality gates for the static site: JS/CSS/HTML linting, formatting,
+# unit tests and dependency-free sanity checks.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Lint, format and test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dev tooling
+        run: npm ci
+
+      - name: JavaScript syntax
+        run: node --check script.js
+
+      - name: ESLint, Stylelint and HTML validation
+        run: npm run lint
+
+      - name: Prettier
+        run: npm run format:check
+
+      - name: Unit tests (clock and like button)
+        run: npm test
+
+      - name: Structure and stylesheet checks
+        run: python scripts/verify.py
