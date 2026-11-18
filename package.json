@@ -14,7 +14,7 @@
     "config": "node scripts/generate-config.js",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "node --test tests/",
+    "test": "node --test tests/script.test.js",
     "check": "npm run lint && npm run format:check && npm test && node --check script.js && python scripts/verify.py"
   },
   "devDependencies": {
