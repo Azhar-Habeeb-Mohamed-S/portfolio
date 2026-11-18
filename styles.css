@@ -1,4 +1,4 @@
-/* Keep the existing design stylesheet while allowing a focused clipping fix. */
+/* Keep the existing design stylesheet while allowing focused layout fixes. */
 @import url("https://cdn.jsdelivr.net/gh/Azhar-Habeeb-Mohamed-S/portfolio@386d65f3dad487969e2c1dbc46471486ab8340a3/styles.css");
 
 /* Text-bearing flex containers must not crop content when their children wrap. */
@@ -13,4 +13,16 @@
 .misc__row,
 .misc__cover-col {
   overflow: visible;
+}
+
+/* Keep the footer like control on the same left edge as the two xxx lines above it. */
+.timezone__right > .rt--note {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+}
+
+.like-button {
+  align-self: flex-start;
+  margin-left: 0;
 }
