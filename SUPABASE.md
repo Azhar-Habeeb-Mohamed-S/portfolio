@@ -65,16 +65,58 @@ create policy "Anyone can read the like count"
 -- The only way to change it: a function that adds +1 / -1 and returns the new
 -- count. SECURITY DEFINER lets it update the row even though RLS blocks direct
 -- writes, and it clamps the value at zero.
+--
+-- Abuse guards: only +1/-1 is accepted, and each client IP may change the count
+-- at most 10 times an hour. This is best effort — a static site cannot prove
+-- identity, so a hard per-account limit needs Supabase auth or a server
+-- endpoint (see "Security notes" below).
+create table if not exists public.like_rate (
+  ip_hash text primary key,
+  hits integer not null default 0,
+  window_start timestamptz not null default now()
+);
+alter table public.like_rate enable row level security;
+revoke all on table public.like_rate from anon, authenticated;
+
 create or replace function public.adjust_site_likes(delta integer)
 returns integer
-language sql
+language plpgsql
 security definer
 set search_path = public
 as $$
+declare
+  client_ip text;
+  bucket public.like_rate;
+  new_count integer;
+begin
+  if delta not in (-1, 1) then
+    return (select count from site_likes where id = 1);
+  end if;
+
+  client_ip := coalesce(
+    current_setting('request.headers', true)::jsonb ->> 'x-forwarded-for',
+    'unknown'
+  );
+
+  insert into like_rate (ip_hash, hits) values (md5(client_ip), 1)
+  on conflict (ip_hash) do update set
+    hits = case when like_rate.window_start < now() - interval '1 hour'
+                then 1 else like_rate.hits + 1 end,
+    window_start = case when like_rate.window_start < now() - interval '1 hour'
+                then now() else like_rate.window_start end
+  returning * into bucket;
+
+  if bucket.hits > 10 then
+    return (select count from site_likes where id = 1);
+  end if;
+
   update site_likes
      set count = greatest(0, count + delta)
    where id = 1
-  returning count;
+  returning count into new_count;
+
+  return new_count;
+end;
 $$;
 
 revoke all on function public.adjust_site_likes(integer) from public;
@@ -160,7 +202,7 @@ where table_schema = 'public'
 order by grantee, privilege_type;
 
 -- 4. The RPC should be SECURITY DEFINER, executable by anon/authenticated,
---    and clamp the value with greatest(0, count + delta).
+--    accept only ±1, and clamp the value with greatest(0, count + delta).
 select p.proname,
        p.prosecdef as security_definer,
        has_function_privilege('anon', p.oid, 'EXECUTE') as anon_can_execute,
@@ -179,12 +221,16 @@ Then periodically verify the following (or compare the query output against it):
 3. **The read policy exists** and only allows SELECT (`Anyone can read the like
 count`).
 4. **The RPC is the only write path.**
-   `public.adjust_site_likes(integer)` is `SECURITY DEFINER`, clamps the value
-   with `greatest(0, count + delta)`, and EXECUTE is granted only to
-   `anon`/`authenticated`. Confirm `revoke all ... from public` was run.
-5. **Keep the RPC argument constrained to ±1 in the client.** `script.js` only
-   ever calls it with `1` or `-1`. If you want defence in depth, add a check
-   inside the function, e.g. `where id = 1 and abs(delta) = 1`.
+   `public.adjust_site_likes(integer)` is `SECURITY DEFINER`, accepts only
+   `+1`/`-1` (anything else is ignored), throttles each client IP to 10 changes
+   an hour, clamps the value with `greatest(0, count + delta)`, and EXECUTE is
+   granted only to `anon`/`authenticated`. Confirm `revoke all ... from public`
+   was run.
+5. **The client still only sends ±1.** `script.js` calls it with `1` or `-1`,
+   and the function rejects anything else. The per-IP throttle is best effort:
+   a client that spoofs `x-forwarded-for` can bypass it, and a static site has
+   no per-account identity. A hard limit needs Supabase auth or a server
+   endpoint that holds the secret.
 6. **Rotate the old key** (see step 4) because it remains in git history, and
    rotate again whenever you suspect misuse. Treat a publishable key as a public
    identifier, not a credential — but do not reintroduce it into tracked files.
