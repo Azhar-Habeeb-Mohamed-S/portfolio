@@ -1,0 +1,20 @@
+/* Responsive spacing for footer note rows and tablet profile content. */
+.timezone__right > .rt--note > .copy {
+  line-height: 24px !important;
+}
+
+@media (min-width: 600px) and (max-width: 1199.98px) {
+  .timezone__right > .rt--note > .copy {
+    line-height: 20px !important;
+  }
+
+  .info__main {
+    gap: 20px !important;
+  }
+}
+
+@media (max-width: 599.98px) {
+  .timezone__right > .rt--note > .copy {
+    line-height: 16px !important;
+  }
+}
