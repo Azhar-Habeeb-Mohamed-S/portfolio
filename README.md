@@ -6,7 +6,6 @@ A one-page personal portfolio — a hand-built static clone of
 **Live site:** <https://azhar-habeeb-mohamed-s.github.io/portfolio/>
 
 ---
-
 ## Overview
 
 The **published site is fully static**: plain HTML, CSS and JavaScript, with no
