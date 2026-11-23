@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en-GB" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Azhar</title>
+    <meta
+      name="description"
+      content="I'm Azhar, I'm a Hong Kong based Product Designer. UX/UI Design. User Experience Design, User Interface Design, Design Thinking, Product Development, Brand Design - A personal design[...]
+    />
+    <meta name="author" content="Azhar" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <link rel="icon" href="images/FkRG4PHGVevaY2203B4aR8aY44.png" />
+    <link rel="apple-touch-icon" href="images/AhjGJbVDNb2INUFWnB4aR8aW44.png" />
+    <link rel="stylesheet" href="fonts.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async></script>
+  </head>
